@@ -1,0 +1,26 @@
+# compose란?
+# 1. 도커의 이미지를 모두 묶어 빌드해준다.
+# 2. 빌드와 동시에 컨테이너 실행이 가능하다. 
+# 3. 컨테이너 실행 시의 옵션을 미리 지정해놓을수 있다.
+
+version: '3'
+
+services:
+    # 이미지 단위(임의로 이름짓기)
+    django:
+        build:
+           # 해당 이미지 빌드를 실행할 폴더경로
+           context: .
+           # * 개발용 Dockerfile은 경로 -> 배포해보고 설정
+           #dockerfile: ./Dockerfile-dev
+
+        # 로컬 포트 : 리스닝 포트
+        # 로컬 기본포트 80에서 컨테이너 포트 8000으로 접속하게 바인딩
+        ports:
+            - "8000:8000"
+        # 
+        command: 
+            - python manage.py runserver 0:8000
+        # 로컬과 컨테이너 폴더 실시간 연동하기
+        volumes:
+            - ./:/myfolder/
