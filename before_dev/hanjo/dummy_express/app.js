@@ -1,34 +1,48 @@
 
 // app.js 전반적인 프로젝트 설정 파일
 
-// ----------------------------------( 모듈(라이브러리) 선언 )----------------------------------
+// ------------------------------------------------------( 모듈(라이브러리) 선언 )------------------------------------------------------
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+// 라우터를 모듈로 받아온다.
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 var app = express();
 
-// ----------------------------------( 서버 설정)----------------------------------
+// ------------------------------------------------------( 폴더 설정)------------------------------------------------------
+
+// veiws 기능 폴더를 'veiws' 이름을 가진 폴더로 지정.
 app.set('views', path.join(__dirname, 'views'));
+// view engine을 ejs로 지정
 app.set('view engine', 'ejs');
 
 
-// ----------------------------------( 미들웨어 등록 )----------------------------------
+// ------------------------------------------------------( 미들웨어 등록 )------------------------------------------------------
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-// public 폴더의 가상경로를 / 로 설정한 것
+// public 폴더의 가상경로를 / 로 설정한 것 -> ejs에서 css/js 참조시 사용
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+// ------------------------------------------------------( 라우터 모듈에 URL 매핑 )------------------------------------------------------
+
 app.use('/', indexRouter);
+app.use('/next', require('./routes/next'));
 app.use('/users', usersRouter);
+
+
+// ------------------------------------------------------( 에러처리 )------------------------------------------------------
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
