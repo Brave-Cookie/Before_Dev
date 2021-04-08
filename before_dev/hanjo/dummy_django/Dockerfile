@@ -11,4 +11,5 @@ RUN pip install django
 # 두번째 /myfolder/ >>> linux 폴더 기준 (이 폴더에 복사)
 COPY . /myfolder/
 
+# 개발용 runserver
 CMD ["python", "manage.py", "runserver", "0:8000"]
