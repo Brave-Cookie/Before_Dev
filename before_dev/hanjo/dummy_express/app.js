@@ -9,8 +9,6 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-// 라우터를 모듈로 받아온다.
-//var indexRouter = require('./routes/index');
 
 var app = express();
 
@@ -38,6 +36,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', require('./routes/r_index'));
 app.use('/next', require('./routes/r_next'));
 app.use('/check_DB', require('./routes/r_chk_DB'));
+app.use('/run_py', require('./routes/r_run_py'));
 
 
 // ------------------------------------------------------( 모델등록 )------------------------------------------------------

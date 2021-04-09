@@ -1,8 +1,16 @@
 
 .container{
-  text-align: center;
-  font-size: 2rem;
-  margin:5rem 0 5rem 0;
+  font-size: 1rem;
+  margin:5rem 0 5rem 5rem;
+}
+
+/* 테이블 */
+.my_table{
+  border :1px solid black;
+}
+
+.my_table td,th{ 
+  border :1px solid black;
 }
 
 

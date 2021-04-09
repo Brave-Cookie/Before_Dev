@@ -9,7 +9,21 @@
 
 
     <div class='container'>
-      
+
+      <table class="my_table">
+        <tr>
+          <th>num</th>
+          <th>name</th>
+        </tr>
+
+        <% for(let t of tt) { %>
+        <tr>
+          <td><%= t.num %></td>
+          <td><%= t.name %></td>
+        </tr>
+        <% } %>
+      </table>
+
     </div>
     
     
