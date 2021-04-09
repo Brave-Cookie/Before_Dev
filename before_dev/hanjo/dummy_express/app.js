@@ -10,8 +10,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 // 라우터를 모듈로 받아온다.
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+//var indexRouter = require('./routes/index');
 
 var app = express();
 
@@ -34,12 +33,25 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-// ------------------------------------------------------( 라우터 모듈에 URL 매핑 )------------------------------------------------------
+// ------------------------------------------------------( 라우터 모듈에 URL이름 매핑 )------------------------------------------------------
 
-app.use('/', indexRouter);
-app.use('/next', require('./routes/next'));
-app.use('/users', usersRouter);
+app.use('/', require('./routes/r_index'));
+app.use('/next', require('./routes/r_next'));
+app.use('/check_DB', require('./routes/r_chk_DB'));
 
+
+// ------------------------------------------------------( 모델등록 )------------------------------------------------------
+
+/* 이건 migrations 기능을 사용할때 
+const models = require("./models/index.js");
+
+models.sequelize.sync().then( () => {
+  console.log(" DB 연결 성공");
+}).catch(err => {
+  console.log("연결 실패");
+  console.log(err);
+})
+*/
 
 // ------------------------------------------------------( 에러처리 )------------------------------------------------------
 

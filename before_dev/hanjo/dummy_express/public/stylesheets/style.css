@@ -1,8 +1,23 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+
+.container{
+  text-align: center;
+  font-size: 2rem;
+  margin:5rem 0 5rem 0;
 }
 
-a {
-  color: #00B7FF;
+
+/* header */
+.h_div{
+  text-align: center;
+  background-color: red;
+  width:auto;
+  height:2rem;
+}
+
+/* footer */
+.f_div{
+  text-align: center;
+  background-color: blue;
+  width:auto;
+  height:2rem;
 }

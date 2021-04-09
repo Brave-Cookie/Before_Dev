@@ -1,15 +1,21 @@
 <!DOCTYPE html>
 <html>
   <head>
-      <%- include ("./ref_head") %>
+      <%- include ("./references/ref_head") %>
   </head>
 
   <body>
-    <div>name : <%= name %></div>
-    <br>
-    <div>num : <%= num %></div>
-    <br>
-    <a href='/next'>창 이동</a>
+    <%- include ("./references/ref_header") %>
+
+
+    <div class='container'>
+      <p><a href='/next'>1. 창 이동 테스트</a></p>
+      <p><a href='/check_DB'>DB연동 테스트</a></p>
+    </div>
+    
+    
+
+    <%- include ("./references/ref_footer") %>
   </body>
 
 </html>
