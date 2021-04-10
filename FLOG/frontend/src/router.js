@@ -7,12 +7,10 @@ import Next from '@/views/next.vue'
 const routes = [
   {
     path: "/",
-    name: "index",
     component: Index,
   },
   {
     path: "/next",
-    name: "next",
     component: Next,
   },
 ];

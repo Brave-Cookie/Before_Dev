@@ -9,6 +9,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+
 var app = express();
 
 // ------------------------------------------------------( 폴더 설정)------------------------------------------------------
@@ -33,6 +34,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 // ------------------------------------------------------( 라우터 모듈에 URL이름 매핑 )------------------------------------------------------
+
+// vue 라우터와 express 라우터를 연동
+app.use(require('connect-history-api-fallback')());
 
 app.use('/', require('./routes/index'));
 
