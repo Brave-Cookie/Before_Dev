@@ -3,6 +3,8 @@
 import { createWebHistory, createRouter } from 'vue-router';
 import Index from '@/views/index.vue'
 import Next from '@/views/next.vue'
+import Chk_db from '@/views/chk_db.vue'
+
 
 const routes = [
   {
@@ -13,7 +15,14 @@ const routes = [
     path: "/next",
     component: Next,
   },
+  {
+    path: "/chk_db",
+    component: Chk_db,
+  },
 ];
+
+
+
 
 const router = createRouter({
   history: createWebHistory(),

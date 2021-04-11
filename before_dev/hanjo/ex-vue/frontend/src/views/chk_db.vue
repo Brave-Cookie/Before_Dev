@@ -2,24 +2,29 @@
 
     <p>chk_db.vue</p>
     <br>
-    
+    <button v-on:click='test'>
+        버튼
+    </button>
+    <br>
+    {{a}}
 </template>
 
 <script>
 export default {
-    /*
-  created () {
-    // 컴포넌트가 생성될 때, /api/movies에 요청을 보냅니다.          
-    this.$http.get('/api/movies')
-        .then((response) => {
-          this.movies = response.data
-        })
+   data() {
+     return {
+       a : {}
+     }
   },
-  data () {
-    return {
-      movies: []
-    }
-  }*/
+
+  methods: {
+        test() {
+          this.axios.get('http://localhost:3000/api/chk_DB').then(
+        (res) => { this.a = res.data }
+        )}
+  }
+   
+  
 }
 </script>
 
