@@ -2,28 +2,17 @@
 
     <p>next.vue</p>
     <br>
-    <button v-on:click='test'>
-        버튼
-    </button>
-    <br>
-    {{a}}
+
+    <a href='/next/next2'>children 라우터로 묶은 next2 컴포넌트 </a>
+
+    <div class='container'>
+    <router-view></router-view>
+    </div>
 </template>
 
 <script>
 export default {
 
-   data() {
-       return { 
-           a: 1 
-           }
-    },
-
-    methods: {
-        test() {
-          this.a += 1
-        }
-      }
-   
 }
 </script>
 

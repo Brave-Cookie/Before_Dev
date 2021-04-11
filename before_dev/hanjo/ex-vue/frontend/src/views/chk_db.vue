@@ -3,24 +3,26 @@
     <p>chk_db.vue</p>
     <br>
     <button v-on:click='test'>
-        버튼
+        api로 db 전송받기
     </button>
     <br>
-    {{a}}
+    <br>
+    {{result}}
 </template>
 
 <script>
 export default {
    data() {
      return {
-       a : {}
+       result : {}
      }
   },
 
   methods: {
         test() {
+          // backend api에서 데이터를 요청 -> json형식으로 받음.
           this.axios.get('http://localhost:3000/api/chk_DB').then(
-        (res) => { this.a = res.data }
+        (res) => { this.result = res.data }
         )}
   }
    

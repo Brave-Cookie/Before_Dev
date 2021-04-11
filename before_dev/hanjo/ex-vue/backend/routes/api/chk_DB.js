@@ -6,7 +6,6 @@ var models  = require('../../models');
 
 
 router.get('/', function (req, res, next) {
-  /*
 
     // 1. models 폴더에서 test_table을 몽땅 가져온다.
     // 2. 가져온 쿼리셋은 promise 문법대로 then 안에서만 조작가능
@@ -16,29 +15,17 @@ router.get('/', function (req, res, next) {
       result => {
         // forEach도 비슷하게 사용한다. result 리스트의 값들 하나하나를 obj로 지정
         // 한 행(obj)에서 dataValues를 추출한다.
-        result.forEach(obj => console.log(obj.dataValues));
-        context ={
-          tt : result
-        };
+        //result.forEach(obj => console.log(obj.dataValues));
 
+        console.log('요청 왔어요!')
+        
         // 응답으로 context를 보낸다
-        res.send(context);
+        res.status(200).json(
+          {
+            'tt' : result
+          });
       }
     )
-    */
-   /*
-   console.log('요청 왔어요!')
-    context ={
-      test : 1
-    };
-    return res.json(context)
-    */
-    console.log('요청 왔어요!')
-    res.status(200).json(
-      {
-        "m" : "test"
-      });
-  
 
 });
 
