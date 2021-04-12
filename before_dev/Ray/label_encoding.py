@@ -1,7 +1,19 @@
-import pandas as pd
+import os
+import numpy as np
+from sklearn.preprocessing import LabelEncoder
 
-label = ['anger','neutral','sad','happy']
+forder = '/content/drive/MyDrive/cut'
+files = paths.list_files(forder)
 
-df = pd.DataFrame({'label':['anger','neutral','sad','happy'] })
-df
-pd.get_dummies(df) 
+label=[] 
+
+for i in files:
+  label.append((os.path.basename(i)).split('_')[3])
+
+# 라벨 인코더 생성
+encoder = LabelEncoder()
+
+encoder.fit(label)
+y = encoder.transform(label)
+
+print(y)
