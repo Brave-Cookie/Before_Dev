@@ -8,6 +8,7 @@ from sklearn.svm import SVC
 from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
+from sklearn.metrics import accuracy_score
 
 
 def getMFCC(i):
@@ -50,4 +51,4 @@ clf.fit(X_train, y_train)
 
 clf.predict(X_val)
 
-#print(accuracy_score(clf.predict(X_val), y_val))
+print(accuracy_score(clf.predict(X_val), y_val))
