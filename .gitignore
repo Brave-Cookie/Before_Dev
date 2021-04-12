@@ -1,2 +1,28 @@
+# --------------------------------- 직접 추가 ---------------------------------
+
 secret.json
+config.json
+
+# --------------------------------- Vue cli에서 자동 추가 ---------------------------------
+.DS_Store
 node_modules
+/dist
+
+# local env files
+.env.local
+.env.*.local
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
