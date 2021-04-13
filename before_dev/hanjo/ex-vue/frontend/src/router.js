@@ -15,6 +15,7 @@ const routes = [
   {
     path: "/next",
     component: Next,
+    // nested router : 하위 라우터 설정
     children: [
       {
         path: "next2",
@@ -22,7 +23,6 @@ const routes = [
     },
     ]
   },
- 
   {
     path: "/chk_db",
     component: Chk_db,

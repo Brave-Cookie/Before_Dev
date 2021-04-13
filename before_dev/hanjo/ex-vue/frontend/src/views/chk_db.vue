@@ -21,11 +21,10 @@ export default {
   methods: {
         test() {
           // backend api에서 데이터를 요청 -> json형식으로 받음.
-          this.axios.get('http://localhost:3000/api/chk_DB').then(
+          this.axios.get('/api/chk_DB').then(
         (res) => { this.result = res.data }
         )}
   }
-   
   
 }
 </script>
