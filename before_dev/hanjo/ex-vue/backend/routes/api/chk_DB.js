@@ -6,7 +6,8 @@ var models  = require('../../models');
 
 
 router.get('/', function (req, res, next) {
-  /*
+  /* 현재 AWS EC2 서버 꺼놓음
+  
     // 1. models 폴더에서 test_table을 몽땅 가져온다.
     // 2. 가져온 쿼리셋은 promise 문법대로 then 안에서만 조작가능
     models.test_table.findAll().then( 
