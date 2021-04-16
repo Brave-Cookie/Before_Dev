@@ -14,10 +14,10 @@ def getMFCC(i):
   signal, sr = librosa.load(i, sr=16000)
 
   # Extract 13 MFCCs
-  MFCCs = librosa.feature.mfcc(signal, sr, n_fft=400, hop_length=160, n_mfcc=50 )
+  MFCCs = librosa.feature.mfcc(signal, sr, n_fft=400, hop_length=160, n_mfcc=34 )
   return MFCCs
 
-forder = '/content/drive/MyDrive/cut'
+forder = '/content/drive/MyDrive/cut2'
 files = paths.list_files(forder)
 
 dataset=[]
@@ -26,7 +26,7 @@ label=[]
 for i in files:
   mfcc=getMFCC(i)
   dataset.append(mfcc.reshape(-1))
-  label.append((os.path.basename(i)).split('_')[3])
+  label.append((os.path.basename(i)).split('_')[2])
 
 
 from sklearn.preprocessing import LabelEncoder
