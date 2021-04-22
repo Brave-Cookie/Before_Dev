@@ -2,19 +2,13 @@ from imutils import paths
 import os
 import librosa
 import numpy as np
-from sklearn.pipeline import make_pipeline
-from sklearn.preprocessing import StandardScaler
-from sklearn.svm import SVC
-from sklearn.model_selection import GridSearchCV
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import LabelEncoder
 
 
 def getMFCC(i):
   signal, sr = librosa.load(i, sr=16000)
 
-  # Extract 13 MFCCs
-  MFCCs = librosa.feature.mfcc(signal, sr, n_fft=400, hop_length=160, n_mfcc=34 )
+  # MFCC를 통한 특징 벡터 추출 (n_mfcc=36)
+  MFCCs = librosa.feature.mfcc(signal, sr, n_fft=400, hop_length=160, n_mfcc=36)
   return MFCCs
 
 forder = '/content/drive/MyDrive/cut2'
@@ -31,44 +25,45 @@ for i in files:
 
 from sklearn.preprocessing import LabelEncoder
 
-# 인코더 생성
+# 라벨 인코더 생성
 encoder = LabelEncoder()
 
 encoder.fit(label)
 y = encoder.transform(label)
 
+
 from sklearn.svm import SVC
-from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 
-X_train, X_val, y_train, y_val = train_test_split(dataset, y, test_size = 0.2, random_state = 42, shuffle = True)
+# 학습 데이터와 훈련 데이터 split
+X_train, X_test, y_train, y_test = train_test_split(dataset, y, test_size = 0.2, random_state = 42, shuffle = True)
 
-clf = SVC(kernel = 'rbf', probability=True)
+# 커널을 설정하고(필요시 인자 수정: C, gamma)
+clf = SVC(kernel = 'linear', probability=True)
 
-clf.fit(X_train, y_train)                                                                                                                                                                                                                                                                                                                  
-clf.predict(X_val)
 
-print(accuracy_score(clf.predict(X_val), y_val))
+clf.fit(X_train, y_train)  
+
+clf.predict(X_test)
+print(accuracy_score(clf.predict(X_test), y_test))
 print("----")
 
-# Define the paramter grid for C from 0.001 to 10, gamma from 0.001 to 10
-C_grid = [0.001, 0.01, 0.1, 1, 10]
-gamma_grid = [0.001, 0.01, 0.1, 1, 10]
-param_grid = {'C': C_grid, 'gamma' : gamma_grid}
-
-grid = GridSearchCV(SVC(kernel='rbf'), param_grid, cv = 3, scoring = "accuracy")
-grid.fit(X_train, y_train)
-
-# 파라미터 최적화
-print(grid.best_score_)
-print(grid.best_params_)
-print(grid.best_estimator_)
-
-
 # 최적화
-clf = SVC(kernel = 'rbf', C = 1, gamma = 0.1, probability=True)
+clf = SVC(kernel = 'rbf', C = 1, probability=True)
 
 clf.fit(X_train, y_train)
 print("----")
-print(accuracy_score(clf.predict(X_val), y_val))
+print(accuracy_score(clf.predict(X_test), y_test))
+
+
+import pickle
+from sklearn.externals import joblib
+
+# 학습한 모델 파일로 저장
+joblib.dump(clf, 'model.pkl') 
+
+
+# 파일로 저장된 모델 불러와서 예측
+clf_from_joblib = joblib.load('model.pkl') 
+clf_from_joblib.predict(X_test)
