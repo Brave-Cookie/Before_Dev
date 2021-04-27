@@ -20,7 +20,7 @@ label=[]
 for i in files:
   mfcc=getMFCC(i)
   dataset.append(mfcc.reshape(-1))
-  label.append((os.path.basename(i)).split('_')[2])
+  label.append((os.path.basename(i)).split('_')[1])
 
 
 from sklearn.preprocessing import LabelEncoder
