@@ -45,7 +45,7 @@ clf = SVC(kernel = 'linear', probability=True)
 
 clf.fit(X_train, y_train)
 
-# 정확도 약 93%
+# 정확도
 print(accuracy_score(clf.predict(X_test), y_test))
 
 
