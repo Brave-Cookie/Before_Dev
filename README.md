@@ -1,3 +1,5 @@
-# 프로젝트 착수 전 삽질 레포
+# 🔨 프로젝트 착수 전 삽질 레포
 
-[Wiki](https://github.com/Brave-Cookie/Wiki)
+### 링크
+
+- [Wiki 저장소](https://github.com/Brave-Cookie/Wiki)
