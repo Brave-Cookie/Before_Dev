@@ -6,11 +6,10 @@ var models  = require('../../models');
 
 
 router.get('/', function (req, res, next) {
-  /* 현재 AWS EC2 서버 꺼놓음
   
     // 1. models 폴더에서 test_table을 몽땅 가져온다.
     // 2. 가져온 쿼리셋은 promise 문법대로 then 안에서만 조작가능
-    models.test_table.findAll().then( 
+    models.test.findAll().then( 
       // 가져온 쿼리셋은 result로 이름 지어주기
       // function의 인자로 넣거나 람다?(=>)로 사용하기
       result => {
@@ -26,7 +25,9 @@ router.get('/', function (req, res, next) {
             'tt' : result
           });
       }
-    )*/
+    )
+
+    /*
     console.log('요청 왔어요!')
         
     // 응답으로 context를 보낸다
@@ -34,6 +35,7 @@ router.get('/', function (req, res, next) {
       {
         t : 1
       });
+      */
 });
 
 module.exports = router;
