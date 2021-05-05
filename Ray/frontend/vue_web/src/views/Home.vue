@@ -1,10 +1,9 @@
 
 <template>
   <div>
-    <h2>Home</h2>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/login">Login</router-link> |
-      <router-link to="/mypage">Mypage</router-link>
+    <h2 id='name'>FLOG</h2>
+
+    <router-link to="/login">시작하기</router-link>
   </div>
 </template>
 
@@ -24,3 +23,9 @@
     },*/
   }
 </script>
+
+<style scoped>
+  #name {
+    color: #6D43F3
+  }
+</style>
