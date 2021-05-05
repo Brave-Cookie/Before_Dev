@@ -1,7 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
+import Signup from '../views/Signup.vue'
 import Mypage from '../views/Mypage.vue'
+
+const requireAuth = (to, from, next) => {
+  const isAuth = localStorage.getItem('token')
+  //const loginPath = `/login?Path=${encodeURIComponent(to.path)}`
+  isAuth ? next() : next('/login')
+}
 
 // 경로 지정
 const routes = [
@@ -21,12 +28,18 @@ const routes = [
     // component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   },
   {
-    path: '/mypage',
+    path: '/signup',
+    name: 'Signup',
+    component: Signup
+  },
+  {
+    path: '/mypage:id',
     name: 'Mypage',
     component: Mypage,
     // 인증 후에만 접근할 수 있음
+     beforeEnter: [requireAuth]
     // 메타 필드
-    meta: { requiresAuth: true }
+    // meta: { requiresAuth: true }
   }
 
   /*

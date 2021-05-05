@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
+// import axios from 'axois'
 // store.js를 불러오는 코드
 // import { store } from "./store";
 
