@@ -1,10 +1,23 @@
 <template>
   <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+      <!-- 아래서 불러온 컴포넌트 별명대로 쓰면됨. -->
+    <Header />
+  <router-view>
+  </router-view>
   </div>
-  <router-view/>
+
 </template>
+
+<script>
+import { Header } from '@/components/Header.vue'
+export default {
+  // 이 폴더의 별명 지정(필수아님)
+  name: 'App',
+  components: {
+    Header,
+  }
+}
+</script>
 
 <style>
 #app {
@@ -25,6 +38,6 @@
 }
 
 #nav a.router-link-exact-active {
-  color: #42b983;
+  color: #7b68ee;
 }
 </style>
