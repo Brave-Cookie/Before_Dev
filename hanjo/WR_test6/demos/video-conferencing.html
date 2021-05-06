@@ -4,45 +4,45 @@
   <meta charset="utf-8">
   <title>Video Conferencing using RTCMultiConnection</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+  <link rel="shortcut icon" href="/demos/logo.png">
   <link rel="stylesheet" href="/demos/stylesheet.css">
   <script src="/demos/menu.js"></script>
 </head>
 <body>
+ 
+<!-- 
+  <h1>
+    Video Conferencing using RTCMultiConnection
+    <p class="no-mobile">
+      Multi-user (many-to-many) video chat using mesh networking model.
+    </p>
+  </h1>
+  -->
 
-  <p> 화상회의 테스트 !!!!!! </p>
+  <p style="text-align: center;"> @@@@ 화상회의 테스트 @@@@ </p>
 
-  
   <section class="make-center">
     <div>
-      <!-- 회의 기록 동영상으로 추출 
+  
       <label><input type="checkbox" id="record-entire-conference"> Record Entire Conference In The Browser?</label>
       <span id="recording-status" style="display: none;"></span>
       <button id="btn-stop-recording" style="display: none;">Stop Recording</button>
-      -->
       <br><br>
-      
-      <!-- 참가 코드 해시값 자동 생성 -->
+
       <input type="text" id="room-id" value="abcdef" autocorrect=off autocapitalize=off size=20>
-      <!-- 방 만들기 -->
       <button id="open-room">Open Room</button>
-      <!-- 방 입장하기 -->
       <button id="join-room">Join Room</button>
+      <button id="open-or-join-room">Auto Open Or Join Room</button>
     </div>
 
-    <!-- 비디오 나오는 부분-->
     <div id="videos-container" style="margin: 20px 0;"></div>
 
-    <!-- ?? -->
     <div id="room-urls" style="text-align: center;display: none;background: #F1EDED;margin: 15px -10px;border: 1px solid rgb(189, 189, 189);border-left: 0;border-right: 0;"></div>
-  
   </section>
 
-<!-- 시그널링 서버 부분인듯 -->
 <script src="/dist/RTCMultiConnection.min.js"></script>
 <script src="/node_modules/webrtc-adapter/out/adapter.js"></script>
 <script src="/socket.io/socket.io.js"></script>
-
-
 
 <!-- custom layout for HTML5 audio/video elements -->
 <link rel="stylesheet" href="/dev/getHTMLMediaElement.css">
