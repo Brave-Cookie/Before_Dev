@@ -17,6 +17,7 @@
 export default {
   // 이 폴더의 별명 지정(필수아님)
   name: 'Login',
+  
     data() {
       return {
         id: "",
