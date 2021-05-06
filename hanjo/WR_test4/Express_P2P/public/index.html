@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Realtime communication with WebRTC</title>
+  <link rel="stylesheet" href="./css/main.css" />
+
+</head>
+
+<body>
+
+  <h1>Realtime communication with WebRTC</h1>
+
+  <div id="videos">
+    <video id="localVideo" autoplay muted playsinline></video>
+    <video id="remoteVideo" autoplay playsinline></video>
+  </div>
+
+  <form method="post" action="/trans_data" id="form" target="param">
+    <input type="hidden" name="img" id="img" />
+  </form>
+
+  <div>
+    <button id="startButton">시작</button>
+    <button id="endButton">종료</button>
+    <canvas id="canvas" hidden></canvas>
+  </div>
+
+  <div>
+    <div id="photos"></div>
+  </div>
+
+  <iframe id="if" name="param" hidden></iframe>
+
+  <!-- This file is automatically added/served when running "node index.js". -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+  <script src="./js/main.js"></script>
+  <script src="./js/capture.js"></script>
+
+</body>
+
+</html>

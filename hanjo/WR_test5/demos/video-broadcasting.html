@@ -2,7 +2,7 @@
 <html lang="en" dir="ltr">
 <head>
   <meta charset="utf-8">
-  <title>Video Conferencing using RTCMultiConnection</title>
+  <title>Video OneWay Broadcasting using RTCMultiConnection</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   <link rel="shortcut icon" href="/demos/logo.png">
   <link rel="stylesheet" href="/demos/stylesheet.css">
@@ -38,84 +38,64 @@
   </header>
 
   <h1>
-    Video Conferencing using RTCMultiConnection
+    Video OneWay Broadcasting using RTCMultiConnection
     <p class="no-mobile">
-      Multi-user (many-to-many) video chat using mesh networking model.
+      Multi-user (one-to-many) video broadcasting using star topology.
     </p>
   </h1>
 
   <section class="make-center">
-    <div>
-      <label><input type="checkbox" id="record-entire-conference"> Record Entire Conference In The Browser?</label>
-      <span id="recording-status" style="display: none;"></span>
-      <button id="btn-stop-recording" style="display: none;">Stop Recording</button>
-      <br><br>
-
-      <input type="text" id="room-id" value="abcdef" autocorrect=off autocapitalize=off size=20>
-      <button id="open-room">Open Room</button>
-      <button id="join-room">Join Room</button>
-      <button id="open-or-join-room">Auto Open Or Join Room</button>
-    </div>
+    <input type="text" id="room-id" value="abcdef" autocorrect=off autocapitalize=off size=20>
+    <button id="open-room">Open Room</button>
+    <button id="join-room">Join Room</button>
+    <button id="open-or-join-room">Auto Open Or Join Room</button>
 
     <div id="videos-container" style="margin: 20px 0;"></div>
 
     <div id="room-urls" style="text-align: center;display: none;background: #F1EDED;margin: 15px -10px;border: 1px solid rgb(189, 189, 189);border-left: 0;border-right: 0;"></div>
   </section>
 
-<script src="/dist/RTCMultiConnection.min.js"></script>
+<script src="/dist/RTCMultiConnection.js"></script>
 <script src="/node_modules/webrtc-adapter/out/adapter.js"></script>
-<script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
+<script src="/socket.io/socket.io.js"></script>
 
 <!-- custom layout for HTML5 audio/video elements -->
 <link rel="stylesheet" href="/dev/getHTMLMediaElement.css">
 <script src="/dev/getHTMLMediaElement.js"></script>
-
-<script src="/node_modules/recordrtc/RecordRTC.js"></script>
 <script>
 // ......................................................
 // .......................UI Code........................
 // ......................................................
 document.getElementById('open-room').onclick = function() {
     disableInputButtons();
-    connection.open(document.getElementById('room-id').value, function(isRoomOpened, roomid, error) {
-        if(isRoomOpened === true) {
-          showRoomURL(connection.sessionid);
-        }
-        else {
-          disableInputButtons(true);
-          if(error === 'Room not available') {
-            alert('Someone already created this room. Please either join or create a separate room.');
-            return;
-          }
-          alert(error);
-        }
+    connection.open(document.getElementById('room-id').value, function() {
+        showRoomURL(connection.sessionid);
     });
 };
 
 document.getElementById('join-room').onclick = function() {
     disableInputButtons();
-    connection.join(document.getElementById('room-id').value, function(isJoinedRoom, roomid, error) {
-      if (error) {
-            disableInputButtons(true);
-            if(error === 'Room not available') {
-              alert('This room does not exist. Please either create it or wait for moderator to enter in the room.');
-              return;
-            }
-            alert(error);
-        }
-    });
+
+    connection.sdpConstraints.mandatory = {
+        OfferToReceiveAudio: true,
+        OfferToReceiveVideo: true
+    };
+    connection.join(document.getElementById('room-id').value);
 };
 
 document.getElementById('open-or-join-room').onclick = function() {
     disableInputButtons();
-    connection.openOrJoin(document.getElementById('room-id').value, function(isRoomExist, roomid, error) {
-        if(error) {
-          disableInputButtons(true);
-          alert(error);
-        }
-        else if (connection.isInitiator === true) {
+    connection.openOrJoin(document.getElementById('room-id').value, function(isRoomExist, roomid) {
+        if (isRoomExist === false && connection.isInitiator === true) {
             // if room doesn't exist, it means that current user will create the room
             showRoomURL(roomid);
+        }
+
+        if(isRoomExist) {
+          connection.sdpConstraints.mandatory = {
+              OfferToReceiveAudio: true,
+              OfferToReceiveVideo: true
+          };
         }
     });
 };
@@ -130,93 +110,20 @@ var connection = new RTCMultiConnection();
 connection.socketURL = '/';
 
 // comment-out below line if you do not have your own socket.io server
-connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
+// connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
 
-connection.socketMessageEvent = 'video-conference-demo';
+connection.socketMessageEvent = 'video-broadcast-demo';
 
 connection.session = {
     audio: true,
-    video: true
+    video: true,
+    oneway: true
 };
 
 connection.sdpConstraints.mandatory = {
-    OfferToReceiveAudio: true,
-    OfferToReceiveVideo: true
+    OfferToReceiveAudio: false,
+    OfferToReceiveVideo: false
 };
-
-// STAR_FIX_VIDEO_AUTO_PAUSE_ISSUES
-// via: https://github.com/muaz-khan/RTCMultiConnection/issues/778#issuecomment-524853468
-var bitrates = 512;
-var resolutions = 'Ultra-HD';
-var videoConstraints = {};
-
-if (resolutions == 'HD') {
-    videoConstraints = {
-        width: {
-            ideal: 1280
-        },
-        height: {
-            ideal: 720
-        },
-        frameRate: 30
-    };
-}
-
-if (resolutions == 'Ultra-HD') {
-    videoConstraints = {
-        width: {
-            ideal: 1920
-        },
-        height: {
-            ideal: 1080
-        },
-        frameRate: 30
-    };
-}
-
-connection.mediaConstraints = {
-    video: videoConstraints,
-    audio: true
-};
-
-var CodecsHandler = connection.CodecsHandler;
-
-connection.processSdp = function(sdp) {
-    var codecs = 'vp8';
-    
-    if (codecs.length) {
-        sdp = CodecsHandler.preferCodec(sdp, codecs.toLowerCase());
-    }
-
-    if (resolutions == 'HD') {
-        sdp = CodecsHandler.setApplicationSpecificBandwidth(sdp, {
-            audio: 128,
-            video: bitrates,
-            screen: bitrates
-        });
-
-        sdp = CodecsHandler.setVideoBitrates(sdp, {
-            min: bitrates * 8 * 1024,
-            max: bitrates * 8 * 1024,
-        });
-    }
-
-    if (resolutions == 'Ultra-HD') {
-        sdp = CodecsHandler.setApplicationSpecificBandwidth(sdp, {
-            audio: 128,
-            video: bitrates,
-            screen: bitrates
-        });
-
-        sdp = CodecsHandler.setVideoBitrates(sdp, {
-            min: bitrates * 8 * 1024,
-            max: bitrates * 8 * 1024,
-        });
-    }
-
-    return sdp;
-};
-// END_FIX_VIDEO_AUTO_PAUSE_ISSUES
 
 // https://www.rtcmulticonnection.org/docs/iceServers/
 // use your own TURN-server here!
@@ -276,66 +183,17 @@ connection.onstream = function(event) {
     }, 5000);
 
     mediaElement.id = event.streamid;
-
-    // to keep room-id in cache
-    localStorage.setItem(connection.socketMessageEvent, connection.sessionid);
-
-    chkRecordConference.parentNode.style.display = 'none';
-
-    if(chkRecordConference.checked === true) {
-      btnStopRecording.style.display = 'inline-block';
-      recordingStatus.style.display = 'inline-block';
-
-      var recorder = connection.recorder;
-      if(!recorder) {
-        recorder = RecordRTC([event.stream], {
-          type: 'video'
-        });
-        recorder.startRecording();
-        connection.recorder = recorder;
-      }
-      else {
-        recorder.getInternalRecorder().addStreams([event.stream]);
-      }
-
-      if(!connection.recorder.streams) {
-        connection.recorder.streams = [];
-      }
-
-      connection.recorder.streams.push(event.stream);
-      recordingStatus.innerHTML = 'Recording ' + connection.recorder.streams.length + ' streams';
-    }
-
-    if(event.type === 'local') {
-      connection.socket.on('disconnect', function() {
-        if(!connection.getAllParticipants().length) {
-          location.reload();
-        }
-      });
-    }
-};
-
-var recordingStatus = document.getElementById('recording-status');
-var chkRecordConference = document.getElementById('record-entire-conference');
-var btnStopRecording = document.getElementById('btn-stop-recording');
-btnStopRecording.onclick = function() {
-  var recorder = connection.recorder;
-  if(!recorder) return alert('No recorder found.');
-  recorder.stopRecording(function() {
-    var blob = recorder.getBlob();
-    invokeSaveAsDialog(blob);
-
-    connection.recorder = null;
-    btnStopRecording.style.display = 'none';
-    recordingStatus.style.display = 'none';
-    chkRecordConference.parentNode.style.display = 'inline-block';
-  });
 };
 
 connection.onstreamended = function(event) {
     var mediaElement = document.getElementById(event.streamid);
     if (mediaElement) {
         mediaElement.parentNode.removeChild(mediaElement);
+
+        if(event.userid === connection.sessionid && !connection.isInitiator) {
+          alert('Broadcast is ended. We will reload this page to clear the cache.');
+          location.reload();
+        }
     }
 };
 
@@ -359,13 +217,13 @@ connection.onMediaError = function(e) {
 // ALL below scripts are redundant!!!
 // ..................................
 
-function disableInputButtons(enable) {
+function disableInputButtons() {
     document.getElementById('room-id').onkeyup();
 
-    document.getElementById('open-or-join-room').disabled = !enable;
-    document.getElementById('open-room').disabled = !enable;
-    document.getElementById('join-room').disabled = !enable;
-    document.getElementById('room-id').disabled = !enable;
+    document.getElementById('open-or-join-room').disabled = true;
+    document.getElementById('open-room').disabled = true;
+    document.getElementById('join-room').disabled = true;
+    document.getElementById('room-id').disabled = true;
 }
 
 // ......................................................
@@ -407,10 +265,8 @@ if (localStorage.getItem(connection.socketMessageEvent)) {
 } else {
     roomid = connection.token();
 }
-
-var txtRoomId = document.getElementById('room-id');
-txtRoomId.value = roomid;
-txtRoomId.onkeyup = txtRoomId.oninput = txtRoomId.onpaste = function() {
+document.getElementById('room-id').value = roomid;
+document.getElementById('room-id').onkeyup = function() {
     localStorage.setItem(connection.socketMessageEvent, document.getElementById('room-id').value);
 };
 

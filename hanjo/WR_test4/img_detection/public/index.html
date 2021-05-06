@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>VideoCapture</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <form method="post" action="/trans_data" id="form" target="param">
+    <input type="hidden" name="img" id="img" />
+  </form>
+
+  <div class="top-container">
+    <video id="video"></video>
+    <button id="photo-button" class="btn btn-dark">시작</button>
+    <button id="clear-button" class="btn btn-light">종료</button>
+    <canvas id="canvas"></canvas>
+  </div>
+
+  <div class="bottom-container">
+    <div id="photos"></div>
+  </div>
+
+  <iframe id="if" name="param" hidden></iframe>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
