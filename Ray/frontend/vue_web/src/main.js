@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router'
 // import axios from 'axois'
 // store.js를 불러오는 코드
-// import { store } from "./store";
+// import store from "@/store";
 
 createApp(App).use(router).mount('#app')
 /*// App.vue 객체 생성

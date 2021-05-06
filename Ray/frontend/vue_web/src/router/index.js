@@ -5,9 +5,11 @@ import Signup from '../views/Signup.vue'
 import Mypage from '../views/Mypage.vue'
 
 const requireAuth = (to, from, next) => {
-  const isAuth = localStorage.getItem('token')
-  //const loginPath = `/login?Path=${encodeURIComponent(to.path)}`
-  isAuth ? next() : next('/login')
+  const isAuth = false //localStorage.getItem('token')
+  isAuth ? next() : next('/')
+  if (isAuth==false) {
+    alert('로그인이 필요한 서비스입니다.')
+  }
 }
 
 // 경로 지정
@@ -33,7 +35,7 @@ const routes = [
     component: Signup
   },
   {
-    path: '/mypage:id',
+    path: '/mypage',
     name: 'Mypage',
     component: Mypage,
     // 인증 후에만 접근할 수 있음
