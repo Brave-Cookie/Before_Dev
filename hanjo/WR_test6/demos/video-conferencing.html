@@ -9,43 +9,21 @@
   <script src="/demos/menu.js"></script>
 </head>
 <body>
-  <header>
-    <a class="logo" href="/"><img src="/demos/logo.png" alt="RTCMultiConnection"></a>
-    <a href="/" class="menu-explorer">Menu<img src="/demos/menu-icon.png" alt="Menu"></a>
-    <nav>
-      <li>
-        <a href="/">Home</a>
-      </li>
-      <li>
-        <a href="/demos/">Demos</a>
-      </li>
-      <li>
-        <a href="https://www.rtcmulticonnection.org/docs/getting-started/">Getting Started</a>
-      </li>
-      <li>
-        <a href="https://www.rtcmulticonnection.org/FAQ/">FAQ</a>
-      </li>
-      <li>
-        <a href="https://www.youtube.com/playlist?list=PLPRQUXAnRydKdyun-vjKPMrySoow2N4tl">YouTube</a>
-      </li>
-      <li>
-        <a href="https://github.com/muaz-khan/RTCMultiConnection/wiki">Wiki</a>
-      </li>
-      <li>
-        <a href="https://github.com/muaz-khan/RTCMultiConnection">Github</a>
-      </li>
-    </nav>
-  </header>
-
+ 
+<!-- 
   <h1>
     Video Conferencing using RTCMultiConnection
     <p class="no-mobile">
       Multi-user (many-to-many) video chat using mesh networking model.
     </p>
   </h1>
+  -->
+
+  <p style="text-align: center;"> @@@@ 화상회의 테스트 @@@@ </p>
 
   <section class="make-center">
     <div>
+  
       <label><input type="checkbox" id="record-entire-conference"> Record Entire Conference In The Browser?</label>
       <span id="recording-status" style="display: none;"></span>
       <button id="btn-stop-recording" style="display: none;">Stop Recording</button>
@@ -64,7 +42,7 @@
 
 <script src="/dist/RTCMultiConnection.min.js"></script>
 <script src="/node_modules/webrtc-adapter/out/adapter.js"></script>
-<script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
+<script src="/socket.io/socket.io.js"></script>
 
 <!-- custom layout for HTML5 audio/video elements -->
 <link rel="stylesheet" href="/dev/getHTMLMediaElement.css">
@@ -130,7 +108,7 @@ var connection = new RTCMultiConnection();
 connection.socketURL = '/';
 
 // comment-out below line if you do not have your own socket.io server
-connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
+// connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
 
 connection.socketMessageEvent = 'video-conference-demo';
 

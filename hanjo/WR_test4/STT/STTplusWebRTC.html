@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>STT to webRTC</title>
+    <style media="screen">
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        #result {
+            padding: 10px 20px;
+            height: 150px;
+            border: solid 1px #000;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+
+<body>
+    <section class="center">
+        <h1>STT + webRTC</h1>
+    </section>
+
+    <section class="center">
+        <video autoplay playsinline></video>
+    </section>
+
+    <section class="center">
+        <div class="button-panel">
+            <button id='btnJoin' class='off'>Join</button>
+            <button id='btnExit'>Exit</button>
+        </div>
+    </section>
+
+    <div id='result'>
+        <!-- 최종 음성인식 결과 -->
+        <section class="center">
+            <span class="final" id="final_span"></span>
+        </section>
+
+        <!-- 음성인식 중 반환값 -->
+        <section class="center">
+            <span class="interim" id="interim_span"></span>
+        </section>
+    </div>
+
+</body>
+
+<script src="../node_modules/jquery/dist/jquery.min.js"></script>
+<script src="./webRTC_basic.js"></script>
+<script src="./STT_auto.js"></script>
+
+</html>
