@@ -1,6 +1,5 @@
-
 <template>
-  <div>
+  <div id = 'body'>
     <h2 id='name'>FLOG</h2>
 
     <router-link to="/login">시작하기</router-link>
@@ -25,7 +24,10 @@
 </script>
 
 <style scoped>
+  #body {
+    
+  }
   #name {
-    color: #6D43F3
+    color: #6D43F3;
   }
 </style>
