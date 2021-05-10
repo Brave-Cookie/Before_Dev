@@ -1,8 +1,8 @@
 <template>
   <div>
     <h2>Login</h2>
-    <form @submit.prevent="onSubmit(id, password)">
-      <input type="text" v-model="id" placeholder="ID" />
+    <form @submit.prevent="onLoggin(email, password)">
+      <input type="text" v-model="email" placeholder="ID" />
       <input type="password" v-model="password" placeholder="Password" />
       <input type="submit" value="Login" />
       <p><i>{{msg}}</i></p>
@@ -45,6 +45,22 @@ export default {
         // 리다이렉트 처리
         this.$router.push(returnPath)
       },
+
+      onLoggin(email, password){
+        axios({
+            method:"POST",
+            url: 'https://reqres.in/api/login',
+            data:{
+                "email": email.value,
+                "password": password.value
+              }
+            }).then((res)=>{
+                console.log(res);
+            }).catch(error=>{
+                console.log(error);
+                throw new Error(error);
+            });
+        }
     },
 }
 </script>
