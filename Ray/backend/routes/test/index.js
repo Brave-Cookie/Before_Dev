@@ -5,7 +5,7 @@ const controller = require('./test.controller');
 
 // test 대기능의 하위 기능인 chk_DB 기능을 '/chk_DB' 라는 이름의 url로 지정
 // // http://localhost:3000/api/test/chk_DB
-router.post('/chk_DB', controller.chk_DB);
-
+// router.post('/chk_DB', controller.chk_DB);
+router.post('/signup', controller.chk_DB);
 
 module.exports = router;

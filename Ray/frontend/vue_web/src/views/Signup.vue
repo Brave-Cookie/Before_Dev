@@ -38,8 +38,8 @@ export default {
 	name: 'SignupForm',
 	data() {
 		return {
-      name: '',
-      id: '',
+      		name: '',
+      		id: '',
 			email: '',
 			password: '',
 			passwordConfirm: '',
