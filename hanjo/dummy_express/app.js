@@ -37,6 +37,8 @@ app.use('/', require('./routes/r_index'));
 app.use('/next', require('./routes/r_next'));
 app.use('/check_DB', require('./routes/r_chk_DB'));
 app.use('/run_py', require('./routes/r_run_py'));
+app.use('/stt_test', require('./routes/r_stt_test'));
+
 
 
 // ------------------------------------------------------( 모델등록 )------------------------------------------------------
