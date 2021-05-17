@@ -5,6 +5,8 @@ import Signup from '../views/Signup.vue'
 import Mypage from '../views/Mypage.vue'
 // hanjo
 import WebRTC from '../views/WebRTC.vue'
+import Stt from '../views/Stt.vue'
+
 
 import Vue from 'vue'
 
@@ -45,11 +47,16 @@ const router = new VueRouter({
       }
     },
 
-    // hanjo
+    // ----------- hanjo -----------
     {
       path: '/WebRTC',
       name: 'WebRTC',
       component: WebRTC
+    },
+    {
+      path: '/stt',
+      name: 'Stt',
+      component: Stt
     }
   ]
 });

@@ -21,18 +21,13 @@
             <div id="videos-container" style="margin: 20px 0;"></div>
 
             <div id="room-urls" style="text-align: center;display: none;background: #F1EDED;margin: 15px -10px;border: 1px solid rgb(189, 189, 189);border-left: 0;border-right: 0;"></div>
-        </section>
+        </section>  
 
     </div>
 </template>
 
 
-<!-- 외부 스크립트 참조 -->
-<script type="text/javascript" src="https://rtcmulticonnection.herokuapp.com/dist/RTCMultiConnection.min.js"></script>
-<script type="text/javascript" src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
-<script type="text/javascript" src="https://rtcmulticonnection.herokuapp.com/node_modules/webrtc-adapter/out/adapter.js"></script>
-<script type="text/javascript" src="https://rtcmulticonnection.herokuapp.com/dev/getHTMLMediaElement.js"></script>
-<script type="text/javascript" src="https://rtcmulticonnection.herokuapp.com/node_modules/recordrtc/RecordRTC.js"></script>
+
 
 
 
@@ -417,7 +412,6 @@ if(navigator.connection &&
 }
 </script>
 
-
 <script>
 export default {
     name: 'WebRTC',
@@ -430,6 +424,17 @@ export default {
 
     methods: {
         // 함수 등록
+    },
+
+    mounted(){
+        // 외부 스크립트 참조
+        let exAPI = document.createElement('script')
+        exAPI.setAttribute('src', 'https://rtcmulticonnection.herokuapp.com/dist/RTCMultiConnection.min.js')
+        exAPI.setAttribute('src', 'https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js')
+        exAPI.setAttribute('src', 'https://rtcmulticonnection.herokuapp.com/node_modules/webrtc-adapter/out/adapter.js')
+        exAPI.setAttribute('src', 'https://rtcmulticonnection.herokuapp.com/dev/getHTMLMediaElement.js')
+        exAPI.setAttribute('src', 'https://rtcmulticonnection.herokuapp.com/node_modules/recordrtc/RecordRTC.js')
+        document.head.appendChild(exAPI)
     }
 }
 </script>

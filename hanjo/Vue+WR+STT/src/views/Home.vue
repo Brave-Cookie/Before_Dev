@@ -5,8 +5,10 @@
     <router-link to="/login">시작하기</router-link>
 
     <!-- hanjo -->
-    <br><br>
+    <br><br><br>
     <router-link to="/WebRTC">WR 테스트하기</router-link>
+    <br>
+    <router-link to="/stt">STT 테스트</router-link>
 
   </div>
 </template>
