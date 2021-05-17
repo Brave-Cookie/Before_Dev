@@ -1,3 +1,4 @@
+# -*- conding: utf-8 -*-
 from flask import Flask, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from model import *
@@ -42,9 +43,34 @@ def insert():
     print('삽입 성공~!')
 
     return redirect(url_for('index'))
+# 요약문 코드 해보는곳 --------------------------
+@app.route('/summarize')
+def sum():
+   
+    temp = [
+        '수지야 우리 프로젝트있잖아 망했어' ,
+        '왜 망했어 혹시 뷰로 하던게 문제가 생긴거야?'  ,
+        '우리가 뷰로 하던게 호환이 안되서 망한거같아.' ,
+        '헐 그럼 어떻게 할거야?'    ,
+        '프로젝트에서 뷰를 버릴까'    ,
+        '뷰를 버리고해도되겠다'    ,
+        '리액트를 쓰자'    ,
+        '그래 리액트는 그래도 빨리 해볼수 있겠지'    ,
+        '리액트는 우리가 하던게 있어서 빨리할수있어'  ,
+        '그럼 우리 프로젝트는 리액트로 다시 열심히 해보' 
+    ]
 
+    
+    for i in temp:
+        query = LogInfo(meeting_id=1,user_id = 'test', log_time='00:00',log_feeling='happy', log_text=i)
+        db.session.add(query)
+        db.session.commit()
+    from gensim.summarization.summarizer import summarize
+    
+   # print(summarize(result,ratio=0.4))
 
-
+    return redirect(url_for('index'))
+# -----------------------------------------------
 
 
 
