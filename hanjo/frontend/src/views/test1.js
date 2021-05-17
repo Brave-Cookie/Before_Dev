@@ -13,10 +13,6 @@ class test1 extends Component {
       console.log(res);
     }
 
-
-    
-    
-
     // html 요소 쓰는부분?
     return (
         <div>
