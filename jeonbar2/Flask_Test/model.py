@@ -1,4 +1,4 @@
-
+# coding: utf-8
 from flask_sqlalchemy import SQLAlchemy
 
 
@@ -6,14 +6,17 @@ db = SQLAlchemy()
 
 
 
-t_log_info = db.Table(
-    'log_info',
-    db.Column('meeting_id', db.ForeignKey('meeting_info.meeting_id'), nullable=False, index=True),
-    db.Column('user_id', db.ForeignKey('user_info.user_id'), nullable=False, index=True),
-    db.Column('log_time', db.DateTime, nullable=False),
-    db.Column('log_feeling', db.String(10), nullable=False),
-    db.Column('log_text', db.String(100), nullable=False)
-)
+class LogInfo(db.Model):
+    __tablename__ = 'log_info'
+
+    meeting_id = db.Column(db.ForeignKey('meeting_info.meeting_id'), primary_key=True, nullable=False, index=True)
+    user_id = db.Column(db.ForeignKey('user_info.user_id'), primary_key=True, nullable=False, index=True)
+    log_time = db.Column(db.String(10), nullable=False)
+    log_feeling = db.Column(db.String(10), nullable=False)
+    log_text = db.Column(db.String(100), nullable=False)
+
+    meeting = db.relationship('MeetingInfo', primaryjoin='LogInfo.meeting_id == MeetingInfo.meeting_id', backref='log_infos')
+    user = db.relationship('UserInfo', primaryjoin='LogInfo.user_id == UserInfo.user_id', backref='log_infos')
 
 
 
@@ -37,19 +40,18 @@ class ProjectInfo(db.Model):
     users = db.relationship('UserInfo', secondary='user_project', backref='project_infos')
 
 
+class ProjectIssue(ProjectInfo):
+    __tablename__ = 'project_issue'
 
-t_project_issue = db.Table(
-    'project_issue',
-    db.Column('project_id', db.ForeignKey('project_info.project_id'), nullable=False, index=True),
-    db.Column('issue_content', db.String(100), nullable=False)
-)
+    project_id = db.Column(db.ForeignKey('project_info.project_id'), primary_key=True, index=True)
+    issue_content = db.Column(db.String(100), nullable=False)
 
 
 
 t_project_meeting = db.Table(
     'project_meeting',
-    db.Column('meeting_id', db.ForeignKey('meeting_info.meeting_id'), nullable=False, index=True),
-    db.Column('project_id', db.ForeignKey('project_info.project_id'), nullable=False, index=True)
+    db.Column('meeting_id', db.ForeignKey('meeting_info.meeting_id'), primary_key=True, nullable=False, index=True),
+    db.Column('project_id', db.ForeignKey('project_info.project_id'), primary_key=True, nullable=False, index=True)
 )
 
 
@@ -74,6 +76,6 @@ class UserInfo(db.Model):
 
 t_user_project = db.Table(
     'user_project',
-    db.Column('user_id', db.ForeignKey('user_info.user_id'), nullable=False, index=True),
-    db.Column('project_id', db.ForeignKey('project_info.project_id'), nullable=False, index=True)
+    db.Column('user_id', db.ForeignKey('user_info.user_id'), primary_key=True, nullable=False, index=True),
+    db.Column('project_id', db.ForeignKey('project_info.project_id'), primary_key=True, nullable=False, index=True)
 )
