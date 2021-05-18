@@ -19,11 +19,11 @@ async function register(user_data) {
 
 function Signup(props) {
 
-    const [user_name, set_name] =useState("");
-    const [user_id, set_id] =useState("");
-    const [user_email, set_email] =useState("");
-    const [user_pw, set_pw] =useState("");
-    const [pwConfirm, set_pwConfirm] =useState("");
+    const [user_name, set_name] = useState("");
+    const [user_id, set_id] = useState("");
+    const [user_email, set_email] = useState("");
+    const [user_pw, set_pw] = useState("");
+    const [pwConfirm, set_pwConfirm] = useState("");
 
     const onNameHandler = (event) => {
         set_name(event.currentTarget.value);
@@ -46,6 +46,9 @@ function Signup(props) {
 
         if(user_pw !== pwConfirm) {
             return alert('비밀번호가 일치하지 않습니다.');
+        }
+        if(user_name===""||user_id===""||user_email===""||user_pw===""||pwConfirm===""){
+            return alert('모든 정보를 입력해주세요.')
         }
 
         let user_data = {

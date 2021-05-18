@@ -1,23 +1,102 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Axios from 'axios'
+//import { Provider, useDispatch } from 'react-redux'
+import { userLogin } from '../api/axios.js'
+//import { login } from '../action/auth';
 
+
+async function getLogin(user_id, user_pw) {
+    var res = await userLogin(user_id, user_pw);
+    console.log(res);
+    if(res.status === 200) {
+        const token = res.data;
+        localStorage.setItem('accessToken', token);
+        console.log(localStorage.accessToken);
+        return true;
+    }
+    else if(res.status === 202) {
+        if(res.data.code === 'login_1'){
+            alert('가입되지 않은 아이디입니다.');
+        }
+        else if(res.data.code === 'login_2') {
+            alert('비밀번호가 일치하지 않습니다.');
+        }
+        return false;
+    }
+    return false;
+};
 
 function Login(props) {
     
+    //const dispath = useDispatch();
+    const [user_id, set_id] = useState("");
+    const [user_pw, set_pw] = useState("");
+
+    const onIdHandler = (event) => {
+        set_id(event.currentTarget.value);
+    }
+    const onPwHandler = (event) => {
+        set_pw(event.currentTarget.value);
+    }
+
+    const onSubmitHandler = (event) => {
+        event.preventDefault();
+
+        if(user_id===""||user_pw===""){
+            return alert('모든 정보를 입력해주세요.')
+        }
 
 
+        if(getLogin(user_id, user_pw)){
+            if(localStorage.getItem('accessToken')) {
+                props.history.push('/mypage/'+user_id);
+            }
+        }
+
+    /*const onSubmitHandler = async () => {
+        try{
+            const res = await userLogin(user_id, user_pw);
+            console.log(res);
+            if(res.status === 202) {
+                if(res.data.code === 'login_1'){
+                    alert('가입되지 않은 아이디입니다.');
+                }
+                else if(res.data.code === 'login_2') {
+                    alert('비밀번호가 일치하지 않습니다.');
+                }
+            }
+            else {
+                const token = res.data;
+                localStorage.setItem('accessToken', token);
+                console.log(localStorage.accessToken);
+                
+                props.history.push('/mypage/'+user_id);
+            }
+            dispath(login(user_id, user_pw))
+                .then((res) => {
+                    console.log(res);
+                })
+            
+            const res = await userLogin(user_id, user_pw);
+            console.log(res);
+
+
+        } catch (error) {
+            console.log(error);
+        }*/
+
+    }
 
     return(
         <div>
             <h3>로그인</h3>
-            <form>
-                <input id="user_id" name="user_id" placeholder="ID" /> <br></br>
-                <input id="user_pw" name="user_pw" type="password" placeholder="Password" /> <br></br>
+            <form onSubmit={onSubmitHandler}>
+                <input id="user_id" name="user_id" placeholder="ID" onChange={onIdHandler}/> <br />
+                <input id="user_pw" name="user_pw" type="password" placeholder="Password" onChange={onPwHandler} /> <br />
                 
-                <button>로그인</button>
+                <button type="submit">로그인</button>
             </form>
-            <br></br>
+            <br />
             <Link to="/signup">회원가입</Link>
         </div>
     )
