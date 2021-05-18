@@ -62,9 +62,9 @@ def sum():
 
     
     for i in temp:
-        query = LogInfo(meeting_id=1,user_id = 'test', log_time='00:00',log_feeling='happy', log_text=i)
-        db.session.add(query)
-        db.session.commit()
+       query = LogInfo(meeting_id=1,user_id = 'test', log_time='00:00',log_feeling='happy', log_text=i)
+       db.session.add(query)
+       db.session.commit()
     from gensim.summarization.summarizer import summarize
     
    # print(summarize(result,ratio=0.4))
