@@ -14,15 +14,7 @@ const App = () => {
   return (
     <BrowserRouter>
     <div className="App">
-      <div className="header">
-        <div style={{fontSize:'20px'}}>FLOG</div> 
-        <div className="header-nav">
-  
-            <Link to="/">HOME</Link>
-            <Link to="/login">LOGIN</Link>
-          
-        </div>       
-      </div>
+
       <div className="content">
         
           <Route path="/" component={ Home } exact />

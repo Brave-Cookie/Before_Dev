@@ -3,12 +3,13 @@
 }
 
 .header {
-  background-color: black;
+  background-color: #9172F6;
   width: 100%;
   display: flex;
-  color: white;
+  color: #FFFFB9;
   padding: 10px;
   font-size: 20px;
+  font-weight: bold;
 }
 
 
@@ -25,5 +26,5 @@
 
 .header-nav {
   text-align: right;
-  color: #61dafb;
+  color: #6D42F8;
 }
