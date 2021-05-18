@@ -43,10 +43,10 @@ def insert():
     print('삽입 성공~!')
 
     return redirect(url_for('index'))
-# 요약문 코드 해보는곳 --------------------------
-@app.route('/summarize')
-def sum():
-   
+
+@app.route('/insert_log')
+def insertLog():
+    # 데이터 삽입
     temp = [
         '수지야 우리 프로젝트있잖아 망했어' ,
         '왜 망했어 혹시 뷰로 하던게 문제가 생긴거야?'  ,
@@ -65,9 +65,25 @@ def sum():
        query = LogInfo(meeting_id=1,user_id = 'test', log_time='00:00',log_feeling='happy', log_text=i)
        db.session.add(query)
        db.session.commit()
+    print('삽입 성공~!')
+
+    return redirect(url_for('index'))
+# 요약문 코드 해보는곳 --------------------------
+@app.route('/summarize_log')
+def summarizeLog():
+    li = LogInfo.query.all()
+    text=''
+    # for로 모두 출력
+    for row in li :
+        text = text + row.log_text+'\n'
+   
+   
+    print(text)
+  
+    rat=len(text)
     from gensim.summarization.summarizer import summarize
     
-   # print(summarize(result,ratio=0.4))
+    print(summarize(text,word_count=rat/10))
 
     return redirect(url_for('index'))
 # -----------------------------------------------

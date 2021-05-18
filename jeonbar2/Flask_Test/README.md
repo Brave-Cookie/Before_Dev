@@ -5,3 +5,5 @@
 pip install flask sqlalchemy flask_sqlalchemy mysql mysql-connector-python
 
 pip install pymysql
+
+pip install gensim==3.8.3
