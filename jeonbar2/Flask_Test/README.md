@@ -7,3 +7,11 @@ pip install flask sqlalchemy flask_sqlalchemy mysql mysql-connector-python
 pip install pymysql
 
 pip install gensim==3.8.3
+
+pip install wordcloud
+pip install matplotlib
+
+# 형태소분석(명사추출) 할때 링크 https://liveyourit.tistory.com/56
+
+pip install konlpy
+pip install wheel

@@ -81,14 +81,75 @@ def summarizeLog():
     print(text)
   
     rat=len(text)
+    
     from gensim.summarization.summarizer import summarize
     
-    print(summarize(text,word_count=rat/10))
+    print(summarize(text))
 
     return redirect(url_for('index'))
 # -----------------------------------------------
+# -------워드클라우드 하는곳----------------------
+@app.route('/word')
+def wordCloud():
+    li = LogInfo.query.all()
+    text=''
+    # for로 모두 출력
+    for row in li :
+        text = text + row.log_text+'\n'
+   
+   
+   
+    '''
+    from wordcloud import WordCloud, STOPWORDS
+    import matplotlib.pyplot as plt 
+
+    
+    wordcloud = WordCloud(font_path='C:\Jeonbar2\git_workspace\Brave_cookie\Before_Dev\jeonbar2\Flask_Test\BMDOHYEON_ttf.ttf', background_color='white').generate(text)
+
+    plt.figure(figsize=(22,22)) #이미지 사이즈 지정
+    plt.imshow(wordcloud, interpolation='lanczos') #이미지의 부드럽기 정도
+    plt.axis('off') #x y 축 숫자 제거
+    plt.show() 
+    plt.savefig()
+    '''
+    try:
+        import jpype
+        import jpype1
+        print('1')
+    except:
+        import jpype
+        print(2)
+    from konlpy.tag import Okt
+    from collections import Counter
+    from wordcloud import WordCloud
+    import matplotlib.pyplot as plt 
+    
+    okt = Okt()
+    noun = okt.nouns(text)
+    count = Counter(noun)
+
+    # 명사빈도 카운트 most_common(뽑아주고 싶은 단어의 갯수)
+    noun_list = count.most_common(100)
+    
+    wc = WordCloud(font_path ='C:\Jeonbar2\git_workspace\Brave_cookie\Before_Dev\jeonbar2\Flask_Test\BMDOHYEON_ttf.ttf',background_color="white",width=1000,
+    height=1000,
+    max_words=100,max_font_size=300)
+    wc.generate_from_frequencies(dict(noun_list))
+    wc.to_file('keyword.png')
+    print(noun_list)
+
+    plt.figure(figsize=(12,12))
+    plt.imshow(wc)
+    plt.axis('off')			# X, Y 축이 사라진다
+    plt.show()
+    return redirect(url_for('index'))
 
 
+
+
+
+
+# -----------------------------------------------
 
 
 
