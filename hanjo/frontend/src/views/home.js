@@ -6,9 +6,12 @@ class home extends Component {
         <div>
             <p> home </p>
 
-            <a href='/test1'>test1 렌더링 : axios 테스트</a>
+            <a href='/test1'>test1 : axios 테스트</a>
             <br/>
-            <a href='/test2'>test2 렌더링</a>
+            <a href='/test2'>test2 : STT 테스트</a>
+            <br/>
+            <a href='/test3'>test3 : WR 테스트</a>
+
         </div>
     );
   }

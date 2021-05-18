@@ -8,9 +8,11 @@ class test1 extends Component {
     // 이곳에 데이터나 여러 추가적인 부분 씀
 
     // 클릭시 꺼내온 함수 발동
-    function clickme(){
-      var res = test();
+    async function clickme(){
+      var res = await test();
       console.log(res);
+      console.log(res.status);
+      console.log(res.data);
     }
 
     // html 요소 쓰는부분?

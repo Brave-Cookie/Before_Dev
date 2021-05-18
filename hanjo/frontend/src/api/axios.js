@@ -5,5 +5,5 @@ const DefalutAxios = axios.create({
 })
 
 export function test(){
-    return DefalutAxios.post('/test/chk_DB');
+    return DefalutAxios.post('/test/chk_DB');   
 }
