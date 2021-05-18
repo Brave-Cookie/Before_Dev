@@ -48,21 +48,28 @@ def insert():
 def insertLog():
     # 데이터 삽입
     temp = [
-        '수지야 우리 프로젝트있잖아 망했어' ,
-        '왜 망했어 혹시 뷰로 하던게 문제가 생긴거야?'  ,
-        '우리가 뷰로 하던게 호환이 안되서 망한거같아.' ,
-        '헐 그럼 어떻게 할거야?'    ,
-        '프로젝트에서 뷰를 버릴까'    ,
-        '뷰를 버리고해도되겠다'    ,
-        '리액트를 쓰자'    ,
-        '그래 리액트는 그래도 빨리 해볼수 있겠지'    ,
-        '리액트는 우리가 하던게 있어서 빨리할수있어'  ,
-        '그럼 우리 프로젝트는 리액트로 다시 열심히 해보' 
+        '우리가 지금까지 프로젝트하면서 해놓은 결과가 어떻게 되지',
+        '일단 우리 프로젝트가 화상회의 기반 감정분석 서비스 잖아',
+        '화상회의 구현 부분이 일단 한 40프로 정도 된거같아',
+        '감정분석 해주는 인공지능은 구현이 완료되었어',
+        '그러면 그다음 부분은 어떻게 되가고 있어',
+        '화상회의 중에 말하는 음성들은 자동으로 텍스트로 변경해주는건 거의 끝났어',
+        '그럼 그 화상회의로 만든 텍스트를 이용하는 서비스는 어덯게 되',
+        '이제 그 텍스트로는 워드클라우드 생성하는건 일부분 성공했어',
+        '그리고 화상회의 텍스트를 자동으로 요약해주는 기능도 구현했다고 할 수 있어',
+        '오 수고했네 그러면 프론트 부분은 어떻게 되가고 있지',
+        '프론트부분은 일단 뷰를 사용하고 있었는데 가장 중요한 화상회의부분이 호환이 안되서 어제 리액트로 바꿨어',
+        '리액트로 바꾸고 나서 뷰로 했던 내용들은',
+        '지금 리액트로 다 바꾸고 있는 중이고 일단 회원가입 까지는 구현 했어',
+        '고생이 많네 좀더 화이팅해서 에이쁠 맞자 다들',
+        '그래서 딱 이주만 고생해보자',
+        '그래 모두 수고하고 있네 오늘 회의는 여기서 끝내자 수고'
+
     ]
 
     
     for i in temp:
-       query = LogInfo(meeting_id=1,user_id = 'test', log_time='00:00',log_feeling='happy', log_text=i)
+       query = LogInfo(meeting_id=2,user_id = 'test', log_time='00:00',log_feeling='happy', log_text=i)
        db.session.add(query)
        db.session.commit()
     print('삽입 성공~!')
@@ -75,7 +82,8 @@ def summarizeLog():
     text=''
     # for로 모두 출력
     for row in li :
-        text = text + row.log_text+'\n'
+        if row.meeting_id==2:
+            text = text + row.log_text+'\n'
    
    
     print(text)
@@ -93,13 +101,15 @@ def summarizeLog():
 def wordCloud():
     li = LogInfo.query.all()
     text=''
+
     # for로 모두 출력
     for row in li :
-        text = text + row.log_text+'\n'
+        if row.meeting_id==1:
+            text = text + row.log_text+'\n'
    
+
    
-   
-    '''
+    '''c
     from wordcloud import WordCloud, STOPWORDS
     import matplotlib.pyplot as plt 
 
@@ -123,7 +133,7 @@ def wordCloud():
     from collections import Counter
     from wordcloud import WordCloud
     import matplotlib.pyplot as plt 
-    
+
     okt = Okt()
     noun = okt.nouns(text)
     count = Counter(noun)
@@ -138,10 +148,7 @@ def wordCloud():
     wc.to_file('keyword.png')
     print(noun_list)
 
-    plt.figure(figsize=(12,12))
-    plt.imshow(wc)
-    plt.axis('off')			# X, Y 축이 사라진다
-    plt.show()
+   
     return redirect(url_for('index'))
 
 
