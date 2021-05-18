@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { withRouter } from 'react-router-dom';
+//import { withRouter } from 'react-router-dom';
 import { registUser } from '../api/axios.js'
 //import { useAsync } from 'react-async';
 

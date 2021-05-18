@@ -9,9 +9,9 @@ async function getLogin(user_id, user_pw) {
     var res = await userLogin(user_id, user_pw);
     console.log(res);
     if(res.status === 200) {
-        const token = res.data;
+        const token = res.data.accessToken;
+        console.log(token);
         localStorage.setItem('accessToken', token);
-        console.log(localStorage.accessToken);
         return true;
     }
     else if(res.status === 202) {
