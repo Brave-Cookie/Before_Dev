@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 //import { withRouter } from 'react-router-dom';
 import { registUser } from '../api/axios.js'
 //import { useAsync } from 'react-async';
+import Header from '../components/Header';
 
 async function register(user_data) {
     var res = await registUser(user_data);
@@ -66,6 +67,8 @@ function Signup(props) {
     
     return(
         <div className="content">
+            <Header />
+            
             <h3>회원가입</h3>
 
             <form onSubmit={onSubmitHandler}>
