@@ -10,6 +10,7 @@
   padding: 10px;
   font-size: 20px;
   font-weight: bold;
+  
 }
 
 
@@ -24,7 +25,18 @@
   color: white;
 }
 
+.content {
+  color: #2c3750;
+}
+
 .header-nav {
   text-align: right;
   color: #6D42F8;
+}
+
+.list {
+  text-align: left;
+  margin-left: 14rem;
+  margin-right: 14rem;
+
 }

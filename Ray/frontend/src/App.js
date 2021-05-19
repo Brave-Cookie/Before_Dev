@@ -5,7 +5,7 @@ import Home from './views/Home';
 import Login from './views/Login';
 import Signup from './views/Signup';
 import Mypage from './views/Mypage';
-
+import Project from './views/Project'
 
 const App = () => {
 
@@ -21,6 +21,7 @@ const App = () => {
           <Route path="/login" component={ Login } exact />
           <Route path="/signup" component={ Signup } exact />
           <Route path="/mypage/:userId" component={ Mypage } exact />
+          <Route path="/prject/:projectId" component={ Project } exact />
         
       </div>
     </div>

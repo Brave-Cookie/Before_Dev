@@ -56,7 +56,7 @@ function Login(props) {
     }
 
     return(
-        <div>
+        <div className="content">
             <Header />
 
             <h3>로그인</h3>
