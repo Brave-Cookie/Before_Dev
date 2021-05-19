@@ -8,7 +8,7 @@ import { createProject } from '../api/axios.js'
 import Modal from 'react-awesome-modal';
 
 async function register(user_id, project_name) {
-    var res = createProject(user_id, project_name);
+    var res = await createProject(user_id, project_name);
     console.log(res.status);
     
     return res;
