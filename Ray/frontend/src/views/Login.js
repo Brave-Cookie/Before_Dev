@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import Header from '../components/Header';
 //import { Provider, useDispatch } from 'react-redux'
 import { userLogin } from '../api/axios.js'
 //import { login } from '../action/auth';
@@ -52,43 +53,12 @@ function Login(props) {
                 props.history.push('/mypage/'+user_id);
             }
         }
-
-    /*const onSubmitHandler = async () => {
-        try{
-            const res = await userLogin(user_id, user_pw);
-            console.log(res);
-            if(res.status === 202) {
-                if(res.data.code === 'login_1'){
-                    alert('가입되지 않은 아이디입니다.');
-                }
-                else if(res.data.code === 'login_2') {
-                    alert('비밀번호가 일치하지 않습니다.');
-                }
-            }
-            else {
-                const token = res.data;
-                localStorage.setItem('accessToken', token);
-                console.log(localStorage.accessToken);
-                
-                props.history.push('/mypage/'+user_id);
-            }
-            dispath(login(user_id, user_pw))
-                .then((res) => {
-                    console.log(res);
-                })
-            
-            const res = await userLogin(user_id, user_pw);
-            console.log(res);
-
-
-        } catch (error) {
-            console.log(error);
-        }*/
-
     }
 
     return(
-        <div>
+        <div className="content">
+            <Header />
+
             <h3>로그인</h3>
             <form onSubmit={onSubmitHandler}>
                 <input id="user_id" name="user_id" placeholder="ID" onChange={onIdHandler}/> <br />

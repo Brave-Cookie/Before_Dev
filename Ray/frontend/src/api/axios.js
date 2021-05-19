@@ -11,3 +11,11 @@ export function registUser(user_data){
 export function userLogin(user_id, user_pw){
     return DefalutAxios.post('/auth/login', { user_id, user_pw });
 }
+
+export function createProject(user_id, project_name) {
+    return DefalutAxios.post('/project/create', { user_id, project_name });
+}
+
+export function getProject(user_id) {
+    return DefalutAxios.get('/project/list/' + user_id)
+}
