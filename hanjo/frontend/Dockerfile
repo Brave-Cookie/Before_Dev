@@ -12,11 +12,14 @@ COPY . /myfolder/
 RUN npm install
 
 # 도커 내부에서 열어둘 포트 지정
-EXPOSE 3000 80 8080
+EXPOSE 8080
 
 #
 CMD ["npm", "start"]
 
 
 # docker build . -t '이미지명 설정'
-# docker run -d --name '컨테이너명 설정' -p 8080:8080 '구동할 이미지명'
+# docker run -d --name '컨테이너명 설정' -p '외부접근포트':'도커내부포트' '구동할 이미지명'
+
+# docker build . -t rt_8080
+# docker run -d --name rt_8080_con -p 8080:8080 rt_8080
