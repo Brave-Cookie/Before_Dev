@@ -180,6 +180,7 @@ def summary(meeting_id):
     from gensim.summarization.summarizer import summarize
     summary_text=summarize(text)
     print('요약회의록 전송 성공')
+    print(summary_text)
     return jsonify({ 'message' : '서머리테스트'},summary_text)
 
 

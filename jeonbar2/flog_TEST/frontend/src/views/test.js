@@ -15,7 +15,7 @@ function test(props) {
 
     async function btn_summarize() { 
         console.log('서머리 테스트')
-        const meeting_id = 3
+        const meeting_id = 2
         console.log('서머리 테스트')
         var res = await axios_summarize(meeting_id);   //미팅아이디 넘겨주기 2
          console.log('서머리 테스트')
