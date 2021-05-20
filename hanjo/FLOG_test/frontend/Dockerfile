@@ -12,7 +12,7 @@ COPY . /myfolder/
 RUN npm install
 
 # 도커 내부에서 열어둘 포트 지정
-EXPOSE 8080
+#EXPOSE 8080
 
 #
 CMD ["npm", "start"]
