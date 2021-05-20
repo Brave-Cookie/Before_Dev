@@ -101,11 +101,31 @@ recognition.onerror = function(event) {
 export class test3 extends Component {
 
     // 영역 2
-    // 컴포넌트 관련된 부분
+    // 컴포넌트 라이프 사이클을 구분하여 사용하는 곳.
 
 
-    // 페이지가 로드 된 후 실행되는 js (보통 HTML에서 <script>로 사용)
+    // 이 영역은 mount가 된 후 실행됨
+    // ** 이벤트 감시하는 부분(DOM 사용)은 이 곳에 코딩!
     componentDidMount() {
+
+        // stt 시작하는 함수
+        function start_stt(){
+            alert('stt 시작!!')
+            recognition.start()
+            ignoreEndProcess = false;
+            finalTranscript = "";
+        }
+
+        // stt 종료 함수
+        function end_stt(){
+            if (isRecognizing) {
+                alert('stt 종료.')
+                recognition.stop();
+                return;
+            }
+        }
+
+
         var predefinedRoomId = 'YOUR_Name';
 
         // Open 버튼 클릭시
@@ -113,26 +133,18 @@ export class test3 extends Component {
             this.disabled = true;
             connection.open(predefinedRoomId);
 
-            // stt 시작
-            alert('stt시작!!')
-            recognition.start()
-            ignoreEndProcess = false;
-            finalTranscript = "";
+            start_stt();
         };
-
+        // Join 버튼 클릭시
         document.getElementById('btn-join-room').onclick = function () {
             this.disabled = true;
             connection.join(predefinedRoomId);
 
-           
+            start_stt();
         };
 
-        document.getElementById('stt_end').onclick = function () {
-             // stt 종료
-             if (isRecognizing) {
-                recognition.stop();
-                return;
-            }
+        document.getElementById('btn_stt_end').onclick = function () {
+            end_stt();
         }
     }
 
@@ -141,9 +153,9 @@ export class test3 extends Component {
 
         // 영역 3
         // 렌더링 이후 사용할 함수 선언하는 부분 
-        // 여기서 선언하는 함수들은 보통 이벤트 리스너 함수
+        // 여기서 선언하는 함수들은 보통 이벤트 처리 함수
 
-
+    
         // 여기부터 렌더링 부분
         return (
             <div>
@@ -153,7 +165,7 @@ export class test3 extends Component {
                 <button id="btn-join-room">Join Room</button>
 
                 <br/>
-                <button id="stt_end">STT 종료</button>
+                <button id="btn_stt_end">STT 종료</button>
                 
                 <hr />
             </div>
