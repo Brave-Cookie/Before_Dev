@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 // axios 파일에서 test 함수 꺼내옴
 import {test} from '../api/axios.js'
 
-class test1 extends Component {
+class Test1 extends Component {
   render() {
     // 이곳에 데이터나 여러 추가적인 부분 씀
 
@@ -26,4 +26,4 @@ class test1 extends Component {
   }
 }
 
-export default test1;
+export default Test1;
