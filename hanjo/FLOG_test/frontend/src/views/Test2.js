@@ -28,10 +28,6 @@ class Test2 extends Component {
     }
 
     render() {
-        // socket 함수
-        // emit(이벤트명, 데이터) : 전송
-        // on(이벤트명, 수신 데이터 처리함수) : 수신
-
 
         // 소켓 인스턴스 생성
         let socket ;
@@ -56,7 +52,7 @@ class Test2 extends Component {
                 socket.emit('dummy', {msg : '더미 보내기'});
             }
         }
-        
+
        
         return (
             <div>

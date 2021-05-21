@@ -30,6 +30,9 @@ socketio = SocketIO(app, cors_allowed_origins="*")
 @socketio.on('connect')
 def connect():
     print('@@@@@@@@@@@@@@@@ 소켓 연결됨 @@@@@@@@@@@@@@@@')
+    socketio.emit('connect_res', {'msg' : '연결완료'})
+
+
 
 @socketio.on('dummy')
 def dummy(req):
@@ -37,25 +40,13 @@ def dummy(req):
     # 응답 보내기
     socketio.emit('dummy', {'msg' : '더미 응답'})
 
+
+
 @socketio.on('disconnect')
 def disconnect():
     print('@@@@@@@@@@@@@@@ 소켓 연결중단 @@@@@@@@@@@@@@@')
 
-'''
-# init 이라는 이름의 emit을 받는다 (on)
-@socketio.on('init')
-def init_socket(req):
-    print('!! 프론트에서 소켓 연결요청 !!')
-    print(req)
-    # 응답 보내기
-    socketio.emit('init_res', {'msg' : '연결 됐다~'})
 
-@socketio.on('dummy')
-def dummy(req):
-    print(req)
-    # 응답 보내기
-    socketio.emit('dummy_res', {'msg' : '더미 응답'})
-'''
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 

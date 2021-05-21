@@ -1,41 +1,10 @@
 import React, { Component } from 'react';
-
-// 영역 1
-// 전역적인 부분.
+import socketio from 'socket.io-client';
 
 
-// ------------------------------------------------------------------------------------------------------------------------
+class Test4 extends Component {
 
-
-export class Test3 extends Component {
-
-    // 영역 2
-    // 컴포넌트 라이프 사이클을 구분하여 사용하는 곳.
-
-
-    // 이 영역은 mount가 된 후 실행됨
-    // ** 이벤트 감시하는 부분(DOM 사용)은 이 곳에 코딩!
     componentDidMount() {
-        // ------------------------------------------------------ Web RTC ------------------------------------------------------
-
-        var connection = new window.RTCMultiConnection();
-        connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
-
-        connection.session = {
-            audio: true,
-            video: true
-        };
-
-        connection.sdpConstraints.mandatory = {
-            OfferToReceiveAudio: true,
-            OfferToReceiveVideo: true
-        };
-
-        connection.onstream = function (event) {
-            document.body.appendChild(event.mediaElement);
-        };
-
-
         // ------------------------------------------------------ Chrome STT API ------------------------------------------------------
 
         // 인식 상태를 관리하는 변수들
@@ -106,13 +75,7 @@ export class Test3 extends Component {
             }
         };
 
-        // 크롬인지 확인
-        var userAgent = window.navigator.userAgent.toLowerCase();
-        var isChrome = userAgent.indexOf('chrome');
-        if (isChrome < -1) {
-            alert("브라우저가 크롬이 아님")
-        }
-
+    
         // stt 시작하는 함수
         function start_stt() {
             alert('stt 시작!!')
@@ -130,52 +93,50 @@ export class Test3 extends Component {
             }
         }
 
+        // ------------------------------------------------------ Event------------------------------------------------------
 
-        var predefinedRoomId = 'YOUR_Name';
+        let socket;
+    
+        // 시작버튼 click 이벤트
+        document.getElementById('connect_socket').onclick = function () {
+            if(socket !== undefined){
+                alert('이미 연결되었음.')
+            }
+            
+            else{
+                // 첫 소켓 연결 + STT 시작
+                socket = socketio.connect('http://localhost:5000')
+                alert('소켓 연결됨! Flask 콘솔 확인')
+                start_stt();
 
-        // Open 버튼 클릭시
-        document.getElementById('btn-open-room').onclick = function () {
-            this.disabled = true;
-            connection.open(predefinedRoomId);
-
-            start_stt();
-        };
-        // Join 버튼 클릭시
-        document.getElementById('btn-join-room').onclick = function () {
-            this.disabled = true;
-            connection.join(predefinedRoomId);
-
-            start_stt();
-        };
-
-        document.getElementById('btn_stt_end').onclick = function () {
-            end_stt();
+                // 소켓에서 res 리스닝하는 부분 (socket.on)
+                socket.on('connect_res',  function(res){
+                    console.log(res)
+                })
+            }
         }
+
+
+
+
+
+
     }
 
 
-    render() {
 
-        // 영역 3
-        // 렌더링 이후 사용할 함수 선언하는 부분 
-        // 여기서 선언하는 함수들은 보통 이벤트 처리 함수
+  render() {
 
+    return (
+        <div>
+            <p> STT 결과를 socket 통신 </p>
 
-        // 여기부터 렌더링 부분
-        return (
-            <div>
-                <p> Web RTC 테스트 </p>
+            <br/>
 
-                <button id="btn-open-room">Open Room</button>
-                <button id="btn-join-room">Join Room</button>
-
-                <br />
-                <button id="btn_stt_end">STT 종료</button>
-
-                <hr />
-            </div>
-        );
-    }
+            <button id='connect_socket'>소켓 통신 + STT 시작</button>
+        </div>
+    );
+  }
 }
 
-export default Test3;
+export default Test4;
