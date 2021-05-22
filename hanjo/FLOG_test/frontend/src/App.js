@@ -7,6 +7,7 @@ import Test1 from './views/Test1.js'
 import Test2 from './views/Test2.js'
 import Test3 from './views/Test3.js'
 import Test4 from './views/Test4.js'
+import Test5 from './views/Test5.js'
 
 
 // 크롬인지 확인
@@ -32,6 +33,7 @@ class App extends Component{
           <Route path="/Test2" component={Test2} exact/>
           <Route path="/Test3" component={Test3} exact/>
           <Route path="/Test4" component={Test4} exact/>
+          <Route path="/Test5" component={Test5} exact/>
         </BrowserRouter>
 
       </div>

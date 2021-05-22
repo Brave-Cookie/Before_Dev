@@ -41,6 +41,11 @@ def dummy(req):
     socketio.emit('dummy', {'msg' : '더미 응답'})
 
 
+@socketio.on('record')
+def dummy(req):
+    print(req)
+
+
 
 @socketio.on('disconnect')
 def disconnect():

@@ -17,17 +17,46 @@ class Test4 extends Component {
         var recognition = new window.webkitSpeechRecognition();
 
         // Chrome STT API 기본 설정
-        recognition.continuous = true;      // 음성이 인식될 때마다 결과값 반환
-        recognition.interimResults = true;  // 끝나지 않은 상태의 음성 반환 설정
-        recognition.lang = "ko-KR";         // 한국어로 설정
+        recognition.continuous = true;          // true 설정 시 계속해서 음성인식
+        recognition.interimResults = false;     // true 설정 시 중간결과 반환
+        recognition.maxAlternatives = 1;        // 그냥 1로 지정
+        recognition.lang = "ko-KR";             // 한국어로 설정
+
 
         // STT 시작하면 발동됨
         recognition.onstart = function () {
+            alert('STT 시작')
             isRecognizing = true;
         };
 
+        /*
+        // audio 감지 시작시 발동
+        recognition.onsoundstart = function() {
+            console.log('SOUND start')
+        }
+        recognition.onaudiostart = function() {
+            console.log('AUDIO start')
+        }
+        recognition.onspeechstart = function() {
+            console.log('SPEECH start')
+        }
+
+        // audio 감지 끝날때 발동
+        recognition.onsoundend = function() {
+            console.log('SOUND end')
+        }
+        recognition.onaudioend = function() {
+            console.log('AUDIO end')
+        }
+        recognition.onspeechend = function() {
+            console.log('SPEECH end')
+        }
+        */
+
         // STT 종료시 발동됨
         recognition.onend = function () {
+            alert('STT 종료')
+
             isRecognizing = false;
 
             if (ignoreEndProcess) {
@@ -41,27 +70,18 @@ class Test4 extends Component {
         // STT 결과 처리하는 부분 
         // 크롬에서 자동으로 음성을 감지하여 끝을 내면 그 때 발동된다.
         recognition.onresult = function (event) {
-            let interimTranscript = "";
 
-            // 
-            if (typeof event.results === "undefined") {
-                recognition.onend = null;
-                recognition.stop();
-                return;
-            }
+            console.log(event)
 
             for (let i = event.resultIndex; i < event.results.length; ++i) {
-                // 인식된 문장이 끝났을 경우
+                // 인식된 문장이 끝났을 경우에만 동작
                 if (event.results[i].isFinal) {
                     // 방금 인식한 단어를 전체 결과에 추가함
                     finalTranscript += event.results[i][0].transcript;
 
                     // 콘솔로 찍어보기
-                    console.log(event.results[i][0].transcript)
-                    console.log(finalTranscript)
-                }
-                else {
-                    interimTranscript += event.results[i][0].transcript;
+                    console.log('방금 인식된 문장 : ', event.results[i][0].transcript)
+                    console.log('쌓인 문장들 : ', finalTranscript)
                 }
             }
         };
@@ -78,7 +98,6 @@ class Test4 extends Component {
     
         // stt 시작하는 함수
         function start_stt() {
-            alert('stt 시작!!')
             recognition.start()
             ignoreEndProcess = false;
             finalTranscript = "";
@@ -87,7 +106,6 @@ class Test4 extends Component {
         // stt 종료 함수
         function end_stt() {
             if (isRecognizing) {
-                alert('stt 종료.')
                 recognition.stop();
                 return;
             }
@@ -116,10 +134,14 @@ class Test4 extends Component {
             }
         }
 
+        // ------------------------------------------------------ temp ------------------------------------------------------
 
-
-
-
+        document.getElementById('start_stt').onclick = function () {
+            start_stt();
+        }
+        document.getElementById('end_stt').onclick = function () {
+            end_stt();
+        }
 
     }
 
@@ -132,7 +154,11 @@ class Test4 extends Component {
             <p> STT 결과를 socket 통신 </p>
 
             <br/>
+            <button id='start_stt'>STT 시작</button>
+            <button id='end_stt'>STT 종료</button>
 
+
+            <br/><br/><br/>
             <button id='connect_socket'>소켓 통신 + STT 시작</button>
         </div>
     );
