@@ -41,9 +41,33 @@ def dummy(req):
     socketio.emit('dummy', {'msg' : '더미 응답'})
 
 
+# 녹음 결과 받는 부분
+
+import wave
+
 @socketio.on('record')
 def dummy(req):
+
     print(req)
+
+    '''
+
+    nchannels = 2
+    sampwidth = 2
+    framerate = 8000
+    nframes = 100
+    name = 'output.wav'
+
+    # wav 생성
+    audio = wave.open(name, 'wb')
+    audio.setnchannels(nchannels)
+    audio.setsampwidth(sampwidth)
+    audio.setframerate(framerate)
+    audio.setnframes(nframes)
+
+
+    audio.writeframes(req_blob)
+    '''
 
 
 
