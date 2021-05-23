@@ -1,0 +1,20 @@
+<html>
+
+<head>
+
+</head>
+
+<body>
+    <button id="test">go</button>
+</body>
+
+<script>
+    document.getElementById('test').onclick = function () {
+        var fd = new FormData()
+        fd.append("name", "value");
+        console.log(fd)
+    }
+    
+</script>
+
+</html>

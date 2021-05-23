@@ -35,7 +35,7 @@ app.post('/messages', (req, res) => {
   const messageId = v4();
 
   console.log('ow')
-
+  console.log(messageFolder, messageId, req.body.message)
   writeFile(messageFolder + messageId, req.body.message, 'base64')
     .then(() => {
       res.status(201).json({ message: 'Saved message' });

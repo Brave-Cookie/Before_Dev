@@ -91,6 +91,8 @@
         reader.onload = () => {
           const base64AudioMessage = reader.result.split(',')[1];
 
+          console.log(base64AudioMessage)
+
           fetch('/messages', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

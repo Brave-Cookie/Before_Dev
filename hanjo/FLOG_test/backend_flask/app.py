@@ -33,7 +33,6 @@ def connect():
     socketio.emit('connect_res', {'msg' : '연결완료'})
 
 
-
 @socketio.on('dummy')
 def dummy(req):
     print(req)
@@ -41,39 +40,27 @@ def dummy(req):
     socketio.emit('dummy', {'msg' : '더미 응답'})
 
 
-# 녹음 결과 받는 부분
-
-import wave
-
-@socketio.on('record')
-def dummy(req):
-
-    print(req)
-
-    '''
-
-    nchannels = 2
-    sampwidth = 2
-    framerate = 8000
-    nframes = 100
-    name = 'output.wav'
-
-    # wav 생성
-    audio = wave.open(name, 'wb')
-    audio.setnchannels(nchannels)
-    audio.setsampwidth(sampwidth)
-    audio.setframerate(framerate)
-    audio.setnframes(nframes)
-
-
-    audio.writeframes(req_blob)
-    '''
-
-
-
 @socketio.on('disconnect')
 def disconnect():
     print('@@@@@@@@@@@@@@@ 소켓 연결중단 @@@@@@@@@@@@@@@')
+
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+@app.route('/api/record',methods=['POST'])
+def record():
+    print('GOOD')
+    print(request.files['blob'])
+
+    f = request.files['blob']
+
+    '''
+    with open('temp.wav', 'wb') as audio:
+        f.save(audio)
+    '''
+
+    return jsonify({ 'message' : '잘도착함'})
 
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
