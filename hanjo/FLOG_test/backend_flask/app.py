@@ -47,6 +47,14 @@ def disconnect():
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+import librosa
+import soundfile as sf
+import joblib
+
+# pkl 파일 load
+# pkl 수정해야함!
+#clf_from_joblib = joblib.load('./model.pkl') 
+
 
 @app.route('/api/record',methods=['POST'])
 def record():
@@ -54,13 +62,32 @@ def record():
     print(request.files['blob'])
 
     f = request.files['blob']
+    
+    signal, sr = librosa.load(f, sr=16000)
 
-    '''
+    # 몇 초인지 추출 => 정수로 변환
+    audio_len = int(librosa.get_duration(signal, sr))
+    
+    if audio_len < 4:
+        print('4초 이내 음성은 분석X')
+        return jsonify({ 'message' : '4초 이내 음성은 분석X'})
+    else :
+        signal = signal[ 0 : 4*16000 ]
+        print(librosa.get_duration(signal, sr))
+        mfcc = librosa.feature.mfcc(signal, sr, n_fft=400, hop_length=160, n_mfcc=36)
+        mfcc = mfcc.reshape(1,-1)
+
+        #global clf_from_joblib
+        #clf_from_joblib.predict(mfcc)
+        print('분석!!')
+        return jsonify({ 'message' : '잘도착함'})
+    
+
+    ''' wav로 저장하는 부분
     with open('temp.wav', 'wb') as audio:
         f.save(audio)
     '''
-
-    return jsonify({ 'message' : '잘도착함'})
+    
 
 
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
