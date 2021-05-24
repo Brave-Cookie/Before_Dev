@@ -34,7 +34,8 @@ class Test4 extends Component {
 
                         // 백엔드로 전송하기 위해 FormData로 생성
                         var fd = new FormData();
-                        fd.append("blob", e.data);
+                        fd.append("for_librosa", e.data);
+                        fd.append("for_silence", e.data);
                         
                         // 잘 생성됐는지 확인
                         for (let key of fd.keys()) {

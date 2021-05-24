@@ -48,45 +48,74 @@ def disconnect():
 # +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 import librosa
-import soundfile as sf
 import joblib
+from pydub import AudioSegment, silence
 
 # pkl 파일 load
-clf_from_joblib = joblib.load('../pkl/model.pkl') 
-scaler_from_joblib = joblib.load('../pkl/scaler.pkl')
+clf_from_joblib = joblib.load('./pkl/model.pkl') 
+scaler_from_joblib = joblib.load('./pkl/scaler.pkl')
 
 
 @app.route('/api/record',methods=['POST'])
 def record():
 
     print('-------------------------------------- 요청완료 => 분석시작 --------------------------------------')
-    f = request.files['blob']
-    
+
+    # 넘어온 wav 음성 데이터 
+    fs = request.files['for_silence']
+    f = request.files['for_librosa']
+
+    # librosa 변환
     signal, sr = librosa.load(f, sr=16000)
 
+    # 묵음구간 추출
+    myaudio = AudioSegment.from_wav(fs)
+    dBFS=myaudio.dBFS
+    silence_section = silence.detect_silence(myaudio, min_silence_len=1000, silence_thresh=dBFS-16)
+    silence_section = [((start/1000),(stop/1000)) for start,stop in silence_section]
+    print(silence_section)
+    
+    # 처음의 가장 긴 묵음 구간만 제거
+    if silence_section:
+        signal = signal[ int(silence_section[0][1]*16000) : ]
+        
     # 몇 초인지 추출 => 정수로 변환
     audio_len = int(librosa.get_duration(signal, sr))
-    print(audio_len)
+    print('묵음제거 음성 길이 : ', audio_len)
     
     if audio_len < 4:
-        print('-------------------------------------- 4초 이하 음성은 분석하지 않음 --------------------------------------')
+        print(' XXXXXXXXXXX 4초 미만 음성은 분석하지 않음 XXXXXXXXXXX ')
         return jsonify({ 'message' : '4초 이내 음성은 분석X'})
     else :
         global clf_from_joblib, scaler_from_joblib
 
-        # ex) 10초짜리 음성 들어올 경우, 7~10 구간을 cut, 분석
-        signal = signal[ (audio_len-4)*16000 : audio_len*16000 ]
+        emotions = []
+        for i in range(0, audio_len - 3):
+            # 0~4 / 1~5 /.... 슬라이스
+            sliced_signal = signal[i*16000 : (i+4)*16000]
+            # 음성 전처리 실시
+            mfcc = librosa.feature.mfcc(sliced_signal, sr, n_fft=400, hop_length=160, n_mfcc=36)
+            mfcc = mfcc.reshape(-1)
+            mfcc = scaler_from_joblib.transform([mfcc])
+            print(mfcc)
+            # 감정분석 결과 추출
+            result = clf_from_joblib.predict(mfcc)
+            if result[0] == 0:
+                emotion = 'anger'
+            elif result[0] == 1:
+                emotion = 'fear'
+            elif result[0] == 2:
+                emotion = 'happy'
+            elif result[0] == 3:
+                emotion = 'neutral'
+            elif result[0] == 4:
+                emotion = 'sad'
+            emotions.append(emotion)
 
-        # 음성 전처리 실시
-        mfcc = librosa.feature.mfcc(signal, sr, n_fft=400, hop_length=160, n_mfcc=36)
-        mfcc = mfcc.reshape(-1)
-        mfcc = scaler_from_joblib.transform([mfcc])
-
-        # 감정분석 결과 추출
-        result = clf_from_joblib.predict(mfcc)
         
-        print('-------------------------------------- 분석 결과 : ', result[0] ,' --------------------------------------')
-        return jsonify({ 'message' : '잘도착함'})
+        print('@@@@@@ 감정 결과 : ', emotions)
+        
+        return jsonify({ 'msg' : '분석 성공'})
     
 
     ''' wav로 저장하는 부분
