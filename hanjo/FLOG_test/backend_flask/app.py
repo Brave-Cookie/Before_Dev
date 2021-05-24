@@ -52,34 +52,40 @@ import soundfile as sf
 import joblib
 
 # pkl 파일 load
-# pkl 수정해야함!
-#clf_from_joblib = joblib.load('./model.pkl') 
+clf_from_joblib = joblib.load('../pkl/model.pkl') 
+scaler_from_joblib = joblib.load('../pkl/scaler.pkl')
 
 
 @app.route('/api/record',methods=['POST'])
 def record():
-    print('GOOD')
-    print(request.files['blob'])
 
+    print('-------------------------------------- 요청완료 => 분석시작 --------------------------------------')
     f = request.files['blob']
     
     signal, sr = librosa.load(f, sr=16000)
 
     # 몇 초인지 추출 => 정수로 변환
     audio_len = int(librosa.get_duration(signal, sr))
+    print(audio_len)
     
     if audio_len < 4:
-        print('4초 이내 음성은 분석X')
+        print('-------------------------------------- 4초 이하 음성은 분석하지 않음 --------------------------------------')
         return jsonify({ 'message' : '4초 이내 음성은 분석X'})
     else :
-        signal = signal[ 0 : 4*16000 ]
-        print(librosa.get_duration(signal, sr))
-        mfcc = librosa.feature.mfcc(signal, sr, n_fft=400, hop_length=160, n_mfcc=36)
-        mfcc = mfcc.reshape(1,-1)
+        global clf_from_joblib, scaler_from_joblib
 
-        #global clf_from_joblib
-        #clf_from_joblib.predict(mfcc)
-        print('분석!!')
+        # ex) 10초짜리 음성 들어올 경우, 7~10 구간을 cut, 분석
+        signal = signal[ (audio_len-4)*16000 : audio_len*16000 ]
+
+        # 음성 전처리 실시
+        mfcc = librosa.feature.mfcc(signal, sr, n_fft=400, hop_length=160, n_mfcc=36)
+        mfcc = mfcc.reshape(-1)
+        mfcc = scaler_from_joblib.transform([mfcc])
+
+        # 감정분석 결과 추출
+        result = clf_from_joblib.predict(mfcc)
+        
+        print('-------------------------------------- 분석 결과 : ', result[0] ,' --------------------------------------')
         return jsonify({ 'message' : '잘도착함'})
     
 

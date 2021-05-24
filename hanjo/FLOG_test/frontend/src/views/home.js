@@ -15,6 +15,8 @@ class Home extends Component {
             <a href='/Test4'>Test4 : 음성 소켓 통신 테스트</a>
             <br/><br/>
             <a href='/Test5'>Test5 : 녹음 분석 테스트</a>
+            <br/><br/>
+            <a href='/Test6'>Test6 : 묵음 제거 녹음</a>
 
         </div>
     );

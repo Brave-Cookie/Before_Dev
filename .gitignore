@@ -3,6 +3,8 @@
 secret.json
 config
 node_modules
+*.pkl
+*.wav
 
 # --------------------------------- Vue cli에서 자동 추가 ---------------------------------
 .DS_Store

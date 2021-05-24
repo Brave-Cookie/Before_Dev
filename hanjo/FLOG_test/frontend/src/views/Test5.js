@@ -12,15 +12,19 @@ class Test5 extends Component {
         async function init(){
             await register(await connect());
         }
+        init();
 
         let recorder;
+        let user_stream;
 
         document.getElementById('start_record').onclick = function () {
 
-            init();
+            
 
             navigator.mediaDevices.getUserMedia({ audio: true }).then(
                 function(stream){
+                    // 스트림 시작시 스트림 저장
+                    user_stream = stream;
                     alert('소켓 연결 + 녹음 시작')
                     //socket = socketio.connect('http://localhost:5000')
 
@@ -64,11 +68,9 @@ class Test5 extends Component {
         document.getElementById('end_record').onclick = function () {
             if (recorder && recorder.state === "recording"){
                 recorder.stop();
-                // 녹음된 audio를 flask 소켓 서버로 전송
-                //socket.emit('record', myBlob);
+                user_stream.getAudioTracks()[0].stop();
             }
         }
-
 
 
         /*
@@ -108,16 +110,10 @@ class Test5 extends Component {
             });
         }
 
-        
-
+    
         document.getElementById('end_record').onclick = function () {
             if (recorder && recorder.state === "recording"){
                 recorder.stop();
-
-
-                
-
-
                 
             }
         }
