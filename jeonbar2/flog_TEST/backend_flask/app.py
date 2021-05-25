@@ -139,17 +139,22 @@ def wordCloud():
 
     okt = Okt()
     noun = okt.nouns(text)
+    
     count = Counter(noun)
 
     # 명사빈도 카운트 most_common(뽑아주고 싶은 단어의 갯수)
-    noun_list = count.most_common(100)
-    print('제일 많이 나온단어:',noun_list[0][1])
-    wc = WordCloud(font_path ='C:\Jeonbar2\git_workspace\Brave_cookie\Before_Dev\jeonbar2\BMDOHYEON_ttf.ttf',background_color="white",width=1000,
-    height=1000,
-    max_words=100,max_font_size=300)
-    wc.generate_from_frequencies(dict(noun_list))
-    wc.to_file('keyword.jpg')
-    print(noun_list)
+    noun_list = count.most_common(10)
+   # print('제일 많이 나온단어:',noun_list)
+    #wc = WordCloud(font_path ='C:\Jeonbar2\git_workspace\Brave_cookie\Before_Dev\jeonbar2\BMDOHYEON_ttf.ttf',background_color="white",width=1000,
+    #height=1000,
+    #max_words=100,max_font_size=300)
+    #wc.generate_from_frequencies(dict(noun_list))
+    #wc.to_file('keyword.jpg')
+    word_list=[]
+    for i in range(0,10):
+        word_list.append(noun_list[i][0])
+
+    print(word_list)
 
    
     return redirect(url_for('index'))
