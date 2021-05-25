@@ -9,6 +9,8 @@ import Test3 from './views/Test3.js'
 import Test4 from './views/Test4.js'
 import Test5 from './views/Test5.js'
 import Test6 from './views/Test6.js'
+import MeetingRoom from './views/MeetingRoom.js'
+
 
 
 // 크롬인지 확인
@@ -36,6 +38,7 @@ class App extends Component{
           <Route path="/Test4" component={Test4} exact/>
           <Route path="/Test5" component={Test5} exact/>
           <Route path="/Test6" component={Test6} exact/>
+          <Route path="/meetingRoom/:joinCode" component={MeetingRoom} exact/>
         </BrowserRouter>
 
       </div>
