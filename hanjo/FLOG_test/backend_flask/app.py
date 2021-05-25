@@ -49,11 +49,38 @@ def disconnect():
 
 import librosa
 import joblib
+import numpy as np
 from pydub import AudioSegment, silence
 
 # pkl 파일 load
 clf_from_joblib = joblib.load('./pkl/model.pkl') 
 scaler_from_joblib = joblib.load('./pkl/scaler.pkl')
+
+def emotion_recognition(audio_len, reform_signal, sr):
+    global clf_from_joblib, scaler_from_joblib
+    emotions = []
+    for i in range(0, audio_len - 3):
+        # 0~4 / 1~5 /.... 슬라이스
+        sliced_signal = reform_signal[i*16000 : (i+4)*16000]
+        # 음성 전처리 실시
+        mfcc = librosa.feature.mfcc(sliced_signal, sr, n_fft=400, hop_length=160, n_mfcc=36)
+        mfcc = mfcc.reshape(-1)
+        mfcc = scaler_from_joblib.transform([mfcc])
+        print(mfcc)
+        # 감정분석 결과 추출
+        result = clf_from_joblib.predict(mfcc)
+        if result[0] == 0:
+            emotion = 'anger'
+        elif result[0] == 1:
+            emotion = 'fear'
+        elif result[0] == 2:
+            emotion = 'happy'
+        elif result[0] == 3:
+            emotion = 'neutral'
+        elif result[0] == 4:
+            emotion = 'sad'
+        emotions.append(emotion)
+    return max(emotions, key=emotions.count)
 
 
 @app.route('/api/record',methods=['POST'])
@@ -68,13 +95,53 @@ def record():
     # librosa 변환
     signal, sr = librosa.load(f, sr=16000)
 
+    # 묵음감지 전 길이 측정
+    if int(librosa.get_duration(signal, sr)) < 4 :
+        print(' XXXXXXXXXXX 4초 미만 음성 XXXXXXXXXXX ')
+        return jsonify({ 'message' : '4초 미만 음성'}) 
+
     # 묵음구간 추출
     myaudio = AudioSegment.from_wav(fs)
     dBFS=myaudio.dBFS
     silence_section = silence.detect_silence(myaudio, min_silence_len=1000, silence_thresh=dBFS-16)
     silence_section = [((start/1000),(stop/1000)) for start,stop in silence_section]
     print(silence_section)
+
+    # 묵음 구간을 없앤 실제 음성 구간 파싱
+    section_list = []
+    for start, end in silence_section:
+        section_list.extend([start, end])
+    section_list = section_list[1:-1]
+
+    # 실제 음성 구간에서 2개씩 묶어준다.
+    new_section = []
+    for i, section in enumerate(section_list):
+        if i%2 ==0:
+            new_section.append([section, section_list[i+1]])
+    print(signal)
+
+    # 실제 음성 구간을 추출, 모두 합쳐줌
+    reform_signal = []
+    for start, end in new_section:
+        reform_signal.extend(signal[int(start*16000) : int(end*16000)])
+    reform_signal = np.array(reform_signal)
+
+    # 묵음제거 음성 길이 측정
+    audio_len = int(librosa.get_duration(reform_signal, sr))
+    print(audio_len)
+
+    if audio_len < 4 :
+        print(' XXXXXXXXXXX 묵음제거 후 4초 미만 XXXXXXXXXXX ')
+        return jsonify({ 'message' : '묵음제거 후 4초 미만'}) 
+
+    else:
+        emotion_result = emotion_recognition(audio_len, reform_signal, sr)
+        print(emotion_result)
+        return jsonify({ 'msg' : '분석완료'})
     
+
+
+    '''
     # 처음의 가장 긴 묵음 구간만 제거
     if silence_section:
         signal = signal[ int(silence_section[0][1]*16000) : ]
@@ -116,7 +183,7 @@ def record():
         print('@@@@@@ 감정 결과 : ', emotions)
         
         return jsonify({ 'msg' : '분석 성공'})
-    
+    '''
 
     ''' wav로 저장하는 부분
     with open('temp.wav', 'wb') as audio:

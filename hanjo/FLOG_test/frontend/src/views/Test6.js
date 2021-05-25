@@ -3,56 +3,45 @@ import React, { Component } from 'react';
 class Test6 extends Component {
 
     componentDidMount() {
-        let mediaRecorder;
-        var mediaConstraints = {
-            audio: true
-        };
-        
-        function onMediaSuccess(stream) {
-
-            mediaRecorder = new window.MediaStreamRecorder(stream);
-            mediaRecorder.mimeType = 'audio/wav'; // check this line for audio/wav
-            mediaRecorder.dontRecordOnSilence = true;
-
-            mediaRecorder.ondataavailable = function (blob) {
-                console.log(blob)
-            };
-
-            mediaRecorder.start(9999999999);
+        document.getElementById('btn_open_room').onclick = function () {
+            // 참여 해시코드 생성
+            // URL 생성
+            // 창 이동 후 화상회의 생성
         }
-        
-        function onMediaError(e) {
-            console.error('media error', e);
-        }
-
-
-        document.getElementById('start_record').onclick = function () {
-            navigator.getUserMedia(mediaConstraints, onMediaSuccess, onMediaError);
-        }
-
-        document.getElementById('end_record').onclick = function () {
-            mediaRecorder.stop();
-            mediaRecorder.save();
-        }
-
-
 
     }
 
-  render() {
-    return (
-        <div>
+    render() {
+      return (
+          <div>
+            
+            <p>최종 테스트</p>
 
-            <p> 묵음제거 녹음 테스트</p>
+            <br/>
+            <hr/>
+            <br/>
 
-            <br />
+            <button id='btn_open_room'>방 만들기</button>
+            
+            <br/>
+            <br/>
+            <hr/>
+            <br/>
+    
+            <form>
+                <input type='text' placeholder='초대코드 입력'/>
+                <br/><br/>
+                <button type='submit'>방 입장하기</button>
+            </form>
 
-            <button id="start_record">녹음 시작</button>
-            <button id="end_record">녹음 종료</button>
-
-        </div>
-    );
-  }
+            <br/>
+            <hr/>
+              
+        
+        
+          </div>
+      );
+    }
 }
 
 export default Test6;

@@ -16,7 +16,7 @@ class Home extends Component {
             <br/><br/>
             <a href='/Test5'>Test5 : 녹음 분석 테스트</a>
             <br/><br/>
-            <a href='/Test6'>Test6 : 묵음 제거 녹음</a>
+            <a href='/Test6'>Test6 : 최종 테스트</a>
 
         </div>
     );
