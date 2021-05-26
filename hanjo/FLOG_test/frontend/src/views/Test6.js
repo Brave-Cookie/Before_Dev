@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { useCookies } from 'react-cookie';
+import React, {useEffect, useState } from 'react';
 
 function Test6(props) {
 
-    const [cookies, setCookie, removeCookie] = useCookies(['']);
-
     function open_room(){
-        const join_code = (Math.random() * new Date().getTime()).toString(32).toUpperCase().replace(/\./g, '-');
-        console.log(join_code)
-        // 쿠키에 호스트라고 알려줄 정보를 넣어줌
-        
-        // 생성된 코드 url로 이동
-        window.location = `/meetingRoom/${join_code}`
+        const room_code = (Math.random() * new Date().getTime()).toString(32).toUpperCase().replace(/\./g, '-');
+
+        // DB에 잠시 초대코드 저장
+        // ** 테이블에 코드 저장 요청 **
+
+        // 생성된 state는 open + 코드 => url로 이동
+        const room_state = 'open'
+        window.location = `/meetingRoom/${room_state}/${room_code}`
     }
 
     function join_room(event){
@@ -20,11 +19,14 @@ function Test6(props) {
         // 입력된 초대 코드
         const input_code = event.target.input_code.value
 
-        // 방이 있는지 확인 => 어떻게 확인하지??? => DB에 잠시 생성..?
+        // 방이 있는지 확인 
+        // ** 테이블에 코드 유무 확인 요청 **
+
         // 방이 있다면 
         if(1){
+            const room_state = 'join'
             // 해당 url로 이동
-            window.location = `/meetingRoom/${input_code}`
+            window.location = `/meetingRoom/${room_state}/${input_code}`
             // 쿠키에 join 정보를 넣어 이동
         }
         // 방이 없다면

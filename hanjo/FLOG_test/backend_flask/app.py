@@ -80,6 +80,7 @@ def emotion_recognition(audio_len, reform_signal, sr):
         elif result[0] == 4:
             emotion = 'sad'
         emotions.append(emotion)
+    print(emotions)
     return max(emotions, key=emotions.count)
 
 

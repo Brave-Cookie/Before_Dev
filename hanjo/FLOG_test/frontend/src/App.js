@@ -38,7 +38,7 @@ class App extends Component{
           <Route path="/Test4" component={Test4} exact/>
           <Route path="/Test5" component={Test5} exact/>
           <Route path="/Test6" component={Test6} exact/>
-          <Route path="/meetingRoom/:joinCode" component={MeetingRoom} exact/>
+          <Route path="/meetingRoom/:roomState/:roomCode" component={MeetingRoom} exact/>
         </BrowserRouter>
 
       </div>
